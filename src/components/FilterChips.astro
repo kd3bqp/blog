@@ -1,0 +1,68 @@
+---
+interface Props {
+  counts: Record<string, number>;
+}
+
+const { counts } = Astro.props;
+const filters = ['All', 'Blog Posts', 'Reviews', 'Events'];
+---
+
+<div class="chips mono" id="filter-chips">
+  {filters.map((name, i) => (
+    <button type="button" class={`chip ${i === 0 ? 'active' : ''}`} data-filter={name}>
+      {name}<span class="count">{counts[name]}</span>
+    </button>
+  ))}
+</div>
+
+<style>
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 30px;
+  }
+  .chip {
+    cursor: pointer;
+    font-size: 11.5px;
+    letter-spacing: 0.04em;
+    padding: 7px 12px;
+    border-radius: 2px;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: var(--surface);
+    color: var(--muted);
+    border: 1px solid var(--rule);
+  }
+  .chip:hover {
+    border-color: var(--accent);
+  }
+  .chip.active {
+    background: var(--accent);
+    color: #fff;
+    border: 1px solid var(--accent);
+  }
+  .count {
+    opacity: 0.55;
+  }
+</style>
+
+<script>
+  const chipsRoot = document.getElementById('filter-chips');
+  if (chipsRoot) {
+    chipsRoot.addEventListener('click', (e) => {
+      const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-filter]');
+      if (!btn) return;
+      const filter = btn.dataset.filter;
+
+      chipsRoot.querySelectorAll('.chip').forEach((c) => c.classList.remove('active'));
+      btn.classList.add('active');
+
+      document.querySelectorAll<HTMLElement>('[data-post-list] [data-cat]').forEach((card) => {
+        const show = filter === 'All' || card.dataset.cat === filter;
+        card.style.display = show ? '' : 'none';
+      });
+    });
+  }
+</script>

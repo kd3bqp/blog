@@ -1,0 +1,312 @@
+---
+const webhookUrl = import.meta.env.PUBLIC_N8N_WEBHOOK_URL ?? '';
+---
+
+<div class="contact-form" data-webhook-url={webhookUrl}>
+  <div class="success-panel mono" data-success hidden>
+    <div class="success-tag">&middot; &mdash; &middot; &nbsp; MESSAGE QUEUED &nbsp; &middot; &mdash; &middot;</div>
+    <div class="serif success-title">Thanks, <span data-sent-name></span> &mdash; got it.</div>
+    <div class="success-body">I&rsquo;ll get back to you as soon as I&rsquo;m off the air. 73!</div>
+    <button type="button" class="btn-ghost mono" data-send-another>Send another</button>
+  </div>
+
+  <form class="fields" data-contact-form>
+    <div class="row">
+      <label class="field">
+        <span class="mono label">Name <span class="accent">*</span></span>
+        <input type="text" name="name" placeholder="Your name" class="text-input" required />
+      </label>
+      <label class="field">
+        <span class="mono label">Email <span class="accent">*</span></span>
+        <input type="email" name="email" placeholder="you@example.com" class="text-input" required />
+      </label>
+    </div>
+    <div class="row">
+      <label class="field">
+        <span class="mono label">Call sign <span class="faint">(optional)</span></span>
+        <input type="text" name="callsign" placeholder="e.g. KD3BQP" class="text-input" />
+      </label>
+      <label class="field">
+        <span class="mono label">Phone <span class="faint">(optional)</span></span>
+        <input type="tel" name="phone" placeholder="(000) 000-0000" class="text-input" />
+      </label>
+    </div>
+
+    <div>
+      <span class="mono label">Message <span class="accent">*</span></span>
+      <div class="editor-shell">
+        <div class="toolbar">
+          <button type="button" title="Bold" data-cmd="bold" class="tool-btn"><b>B</b></button>
+          <button type="button" title="Italic" data-cmd="italic" class="tool-btn"><i>I</i></button>
+          <button type="button" title="Underline" data-cmd="underline" class="tool-btn"><u>U</u></button>
+          <span class="sep"></span>
+          <button type="button" title="Bulleted list" data-cmd="insertUnorderedList" class="tool-btn">&bull; List</button>
+          <button type="button" title="Numbered list" data-cmd="insertOrderedList" class="tool-btn">1. List</button>
+          <span class="sep"></span>
+          <button type="button" title="Insert link" data-cmd="createLink" class="tool-btn">&#128279; Link</button>
+          <button type="button" title="Clear formatting" data-cmd="removeFormat" class="tool-btn">Clear</button>
+        </div>
+        <div
+          class="editor"
+          contenteditable="true"
+          data-message-editor
+          data-ph="Type your message&hellip; use the buttons above to format it."
+        ></div>
+      </div>
+    </div>
+
+    <div class="error mono" data-error hidden></div>
+    <div class="actions">
+      <button type="submit" class="btn mono">Send message</button>
+      <span class="mono dashes faint">&middot; &mdash; &middot; &middot; &mdash; &middot;</span>
+    </div>
+  </form>
+</div>
+
+<style>
+  .contact-form {
+    display: block;
+  }
+  .fields {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .row {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .field {
+    flex: 1 1 200px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+  .label {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--faint);
+    margin-bottom: 7px;
+  }
+  .accent {
+    color: var(--accent);
+  }
+  .faint {
+    color: var(--faint);
+  }
+  .text-input {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 15px;
+    color: var(--ink);
+    background: var(--bg);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    padding: 10px 12px;
+    width: 100%;
+  }
+  .editor-shell {
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    overflow: hidden;
+    background: var(--surface);
+  }
+  .toolbar {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    padding: 6px;
+    border-bottom: 1px solid var(--rule);
+    background: var(--surface2);
+    flex-wrap: wrap;
+  }
+  .tool-btn {
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    color: var(--muted);
+    background: transparent;
+    border: none;
+    border-radius: 2px;
+    padding: 6px 9px;
+    line-height: 1;
+  }
+  .tool-btn:hover {
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+  .sep {
+    width: 1px;
+    height: 18px;
+    background: var(--rule);
+    margin: 0 4px;
+  }
+  .editor {
+    min-height: 150px;
+    padding: 14px 14px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--ink);
+    background: var(--bg);
+  }
+  .error {
+    font-size: 12.5px;
+    color: var(--accent);
+  }
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .btn {
+    cursor: pointer;
+    font-size: 12.5px;
+    letter-spacing: 0.05em;
+    color: #fff;
+    background: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 3px;
+    padding: 11px 20px;
+  }
+  .btn:hover {
+    opacity: 0.88;
+  }
+  .dashes {
+    font-size: 11.5px;
+  }
+  .success-panel {
+    background: var(--accent-soft);
+    border: 1px solid var(--accent);
+    border-radius: 3px;
+    padding: 26px 24px;
+    text-align: center;
+  }
+  .success-tag {
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .success-title {
+    font-size: 21px;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .success-body {
+    font-size: 15.5px;
+    color: var(--muted);
+    margin-bottom: 18px;
+  }
+  .btn-ghost {
+    cursor: pointer;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    background: transparent;
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    padding: 9px 16px;
+  }
+  .btn-ghost:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  [data-ph]:empty:before {
+    content: attr(data-ph);
+    color: var(--faint);
+    pointer-events: none;
+  }
+</style>
+
+<script>
+  function initContactForm(root: HTMLElement) {
+    const webhookUrl = root.dataset.webhookUrl || '';
+    const form = root.querySelector<HTMLFormElement>('[data-contact-form]')!;
+    const editor = root.querySelector<HTMLElement>('[data-message-editor]')!;
+    const errorEl = root.querySelector<HTMLElement>('[data-error]')!;
+    const successPanel = root.querySelector<HTMLElement>('[data-success]')!;
+    const sentNameEl = root.querySelector<HTMLElement>('[data-sent-name]')!;
+    const sendAnotherBtn = root.querySelector<HTMLButtonElement>('[data-send-another]')!;
+
+    root.querySelectorAll<HTMLButtonElement>('.tool-btn').forEach((btn) => {
+      btn.addEventListener('mousedown', (e) => e.preventDefault());
+      btn.addEventListener('click', () => {
+        const cmd = btn.dataset.cmd!;
+        if (cmd === 'createLink') {
+          const url = window.prompt('Link URL (https://...)');
+          if (url) document.execCommand('createLink', false, url);
+        } else {
+          document.execCommand(cmd, false);
+        }
+        editor.focus();
+      });
+    });
+
+    function showError(msg: string) {
+      errorEl.textContent = msg;
+      errorEl.hidden = false;
+    }
+    function clearError() {
+      errorEl.hidden = true;
+      errorEl.textContent = '';
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearError();
+
+      const name = (form.elements.namedItem('name') as HTMLInputElement).value.trim();
+      const email = (form.elements.namedItem('email') as HTMLInputElement).value.trim();
+      const callsign = (form.elements.namedItem('callsign') as HTMLInputElement).value.trim();
+      const phone = (form.elements.namedItem('phone') as HTMLInputElement).value.trim();
+      const message = editor.innerText.trim();
+      const messageHtml = editor.innerHTML.trim();
+
+      if (!name || !email) {
+        showError('Name and email are required.');
+        return;
+      }
+      if (!/.+@.+\..+/.test(email)) {
+        showError("That email doesn't look right — double-check it?");
+        return;
+      }
+      if (!message) {
+        showError('Add a message before sending.');
+        return;
+      }
+      if (!webhookUrl) {
+        showError("The contact form isn't connected yet — check back soon.");
+        return;
+      }
+
+      try {
+        const res = await fetch(webhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, callsign, phone, message, messageHtml }),
+        });
+        if (!res.ok) throw new Error(`Request failed: ${res.status}`);
+
+        sentNameEl.textContent = name;
+        form.hidden = true;
+        successPanel.hidden = false;
+      } catch {
+        showError("Couldn't send that — check your connection and try again.");
+      }
+    });
+
+    sendAnotherBtn.addEventListener('click', () => {
+      form.reset();
+      editor.innerHTML = '';
+      successPanel.hidden = true;
+      form.hidden = false;
+      clearError();
+    });
+  }
+
+  document.querySelectorAll<HTMLElement>('.contact-form').forEach(initContactForm);
+</script>

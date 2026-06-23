@@ -1,0 +1,125 @@
+:root,
+html[data-theme='paper'] {
+  --bg: #efe9dc;
+  --surface: #faf6ee;
+  --surface2: #ece3d2;
+  --ink: #2a2521;
+  --muted: #7c7164;
+  --faint: #aaa090;
+  --rule: #ddd3c1;
+  --accent: #a8521f;
+  --accent-soft: #f1e6d6;
+}
+
+html[data-theme='night'] {
+  --bg: #13171b;
+  --surface: #1a2127;
+  --surface2: #232c33;
+  --ink: #eae6dc;
+  --muted: #9aa6ac;
+  --faint: #5e6a71;
+  --rule: #2a333a;
+  --accent: #d79248;
+  --accent-soft: #241d12;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Source Sans 3', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+::selection {
+  background: rgba(168, 82, 31, 0.18);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--faint);
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--accent) !important;
+}
+
+[contenteditable]:focus {
+  outline: none;
+}
+
+[contenteditable] a {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+[contenteditable][data-ph]:empty:before {
+  content: attr(data-ph);
+  color: var(--faint);
+  pointer-events: none;
+}
+
+.wrap {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.serif {
+  font-family: 'Spectral', serif;
+}
+
+.dashed-rule {
+  height: 4px;
+  background: repeating-linear-gradient(90deg, var(--accent) 0 16px, transparent 16px 26px);
+  opacity: 0.45;
+}
+
+.photo-placeholder {
+  border-radius: 3px;
+  background: repeating-linear-gradient(
+    45deg,
+    var(--surface2),
+    var(--surface2) 11px,
+    var(--surface) 11px,
+    var(--surface) 22px
+  );
+  border: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--faint);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+}
+
+p.lead::first-letter {
+  font-family: 'Spectral', serif;
+  font-weight: 600;
+  font-size: 62px;
+  line-height: 0.78;
+  padding: 6px 12px 0 0;
+  color: var(--accent);
+  float: left;
+}

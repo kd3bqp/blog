@@ -1,0 +1,54 @@
+---
+interface Props {
+  pageKey: string;
+  pageTitle: string;
+}
+
+const { pageKey, pageTitle } = Astro.props;
+const commentsEnabled = import.meta.env.PUBLIC_COMMENTS_ENABLED === 'true';
+const artalkServer = import.meta.env.PUBLIC_ARTALK_SERVER ?? '';
+---
+
+<section class="comments">
+  <div class="mono heading faint">Comments</div>
+
+  {commentsEnabled ? (
+    <>
+      <div id="artalk" data-page-key={pageKey} data-page-title={pageTitle}></div>
+      <link rel="stylesheet" href="https://unpkg.com/artalk@2/dist/Artalk.css" />
+      <script type="module" define:vars={{ artalkServer, pageKey, pageTitle }}>
+        import Artalk from 'https://unpkg.com/artalk@2/dist/Artalk.mjs';
+        Artalk.init({
+          el: '#artalk',
+          pageKey,
+          pageTitle,
+          server: artalkServer,
+        });
+      </script>
+    </>
+  ) : (
+    <div class="offline mono">Comments are off the air for now &mdash; check back soon.</div>
+  )}
+</section>
+
+<style>
+  .comments {
+    margin-top: 40px;
+    border-top: 1px solid var(--rule);
+    padding-top: 30px;
+  }
+  .heading {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 22px;
+  }
+  .offline {
+    font-size: 13.5px;
+    color: var(--muted);
+    border: 1px solid var(--rule);
+    background: var(--surface);
+    border-radius: 3px;
+    padding: 18px;
+  }
+</style>

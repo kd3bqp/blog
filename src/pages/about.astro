@@ -1,0 +1,169 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="About" active="about">
+  <div class="layout">
+    <main class="main">
+      <div class="mono eyebrow faint">About the operator</div>
+      <h1 class="serif heading">Hi, I&rsquo;m the operator behind KD3BQP.</h1>
+
+      <div class="photo photo-placeholder">[ PHOTO &mdash; the operator at the bench ]</div>
+
+      <p class="body-text">I&rsquo;m a Technician-class operator up in York County, Pennsylvania (grid FM19px). I got my ticket in July 2024 and got hooked fast &mdash; what started as &ldquo;I should learn this&rdquo; turned into a clipboard of pass times and a handheld that never leaves my bag.</p>
+      <p class="body-text">Most of my radio time is local: the <strong>Keystone VHF Club</strong> net on Monday nights, club operating weekends like the ARRL Sweepstakes, and a growing obsession with listening to amateur satellites pass overhead. I&rsquo;m also working my way into public-service and emergency comms &mdash; the <strong>ARES / RACES / AUXCOMM</strong> side &mdash; because that&rsquo;s where the hobby meets being genuinely useful.</p>
+      <p class="body-text">This blog is my logbook in public: event writeups, honest reviews of the gear I actually use (no affiliate fluff), and notes from the projects on my bench. If we&rsquo;ve worked each other, drop me a line.</p>
+
+      <h2 class="serif subheading">What you&rsquo;ll find here</h2>
+      <ul class="list">
+        <li>Event &amp; net writeups from the club and public-service radio</li>
+        <li>Long-term reviews of the HTs and gear I actually use</li>
+        <li>Field notes from satellites, contests, and bench projects</li>
+      </ul>
+    </main>
+
+    <aside class="sidebar">
+      <div class="panel">
+        <div class="mono panel-title accent">The station</div>
+        <dl class="mono dl">
+          <div class="row"><dt class="faint small">DAILY HT</dt><dd>BTech UV-PRO</dd></div>
+          <div class="row"><dt class="faint small">ALSO IN THE BAG</dt><dd>Explorer QRZ-1</dd></div>
+          <div class="row"><dt class="faint small">ANTENNAS</dt><dd>2m/70cm Slim Jim, mag-mount mobile</dd></div>
+          <div class="row last"><dt class="faint small">BENCH</dt><dd>NanoVNA, soldering iron, too many adapters</dd></div>
+        </dl>
+      </div>
+
+      <div class="panel">
+        <div class="mono panel-title faint">Where to find me</div>
+        <div class="find-me mono">
+          <a href="https://www.qrz.com/" target="_blank" rel="noopener">QRZ &rarr; KD3BQP</a>
+          <a href="https://mastodon.social/" target="_blank" rel="noopener">Mastodon &rarr; @kd3bqp</a>
+          <a href="/contact">Email the shack</a>
+        </div>
+        <div class="club-note mono">Keystone VHF Club<br>Net: Mondays &middot; 2m FM</div>
+      </div>
+    </aside>
+  </div>
+</BaseLayout>
+
+<style>
+  .layout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 48px;
+    align-items: flex-start;
+    padding: 40px 0 8px;
+  }
+  .main {
+    flex: 1 1 460px;
+    min-width: 0;
+    max-width: 640px;
+  }
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .faint {
+    color: var(--faint);
+  }
+  .heading {
+    margin: 0 0 24px;
+    font-weight: 700;
+    font-size: 38px;
+    line-height: 1.12;
+    color: var(--ink);
+  }
+  .photo {
+    height: 260px;
+    margin-bottom: 28px;
+  }
+  .body-text {
+    font-size: 18px;
+    line-height: 1.75;
+    color: var(--ink);
+    margin: 0 0 20px;
+  }
+  .body-text strong {
+    color: var(--ink);
+  }
+  .subheading {
+    font-weight: 600;
+    font-size: 24px;
+    color: var(--ink);
+    margin: 30px 0 14px;
+  }
+  .list {
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--ink);
+    margin: 0 0 8px;
+    padding-left: 22px;
+  }
+  .list li {
+    margin-bottom: 8px;
+  }
+  .sidebar {
+    flex: 1 1 280px;
+    max-width: 320px;
+    position: sticky;
+    top: 24px;
+  }
+  .panel {
+    border: 1px solid var(--rule);
+    background: var(--surface);
+    border-radius: 3px;
+    padding: 18px;
+    margin-bottom: 22px;
+  }
+  .panel-title {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .accent {
+    color: var(--accent);
+  }
+  .dl {
+    font-size: 12.5px;
+    line-height: 1.5;
+  }
+  .row {
+    padding: 6px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .row.last {
+    border-bottom: none;
+  }
+  .row dt.small {
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+  }
+  .row dd {
+    margin: 3px 0 0;
+    color: var(--ink);
+  }
+  .find-me {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 13px;
+  }
+  .find-me a {
+    cursor: pointer;
+    color: var(--ink);
+  }
+  .find-me a:hover {
+    color: var(--accent);
+  }
+  .club-note {
+    margin-top: 15px;
+    padding-top: 13px;
+    border-top: 1px solid var(--rule);
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+</style>

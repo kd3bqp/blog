@@ -1,0 +1,126 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactForm from '../components/ContactForm.astro';
+---
+
+<BaseLayout title="Contact" active="contact">
+  <div class="layout">
+    <main class="main">
+      <div class="mono eyebrow faint">Reach the shack</div>
+      <h1 class="serif heading">Drop me a line</h1>
+      <p class="intro">Worked me on the air, spotted a mistake, or just want to talk radio? Send a message below &mdash; no account needed. I read everything.</p>
+
+      <ContactForm />
+    </main>
+
+    <aside class="sidebar">
+      <div class="panel">
+        <div class="mono panel-title accent">Other ways to reach me</div>
+        <div class="find-me mono">
+          <a href="https://www.qrz.com/" target="_blank" rel="noopener">QRZ &rarr; KD3BQP</a>
+          <a href="https://mastodon.social/" target="_blank" rel="noopener">Mastodon &rarr; @kd3bqp</a>
+          <a href="mailto:operator@kd3bqp.radio">Email the shack</a>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="mono panel-title faint">On the air</div>
+        <dl class="mono dl">
+          <div class="row"><dt class="faint">Grid</dt><dd>FM19px</dd></div>
+          <div class="row"><dt class="faint">Club net</dt><dd>Mondays</dd></div>
+          <div class="row last"><dt class="faint">Monitoring</dt><dd>146.520</dd></div>
+        </dl>
+      </div>
+    </aside>
+  </div>
+</BaseLayout>
+
+<style>
+  .layout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 48px;
+    align-items: flex-start;
+    padding: 40px 0 8px;
+  }
+  .main {
+    flex: 1 1 520px;
+    min-width: 0;
+    max-width: 680px;
+  }
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .faint {
+    color: var(--faint);
+  }
+  .heading {
+    margin: 0 0 16px;
+    font-weight: 700;
+    font-size: 38px;
+    line-height: 1.12;
+    color: var(--ink);
+  }
+  .intro {
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--muted);
+    margin: 0 0 30px;
+    max-width: 58ch;
+  }
+  .sidebar {
+    flex: 1 1 260px;
+    max-width: 300px;
+    position: sticky;
+    top: 24px;
+  }
+  .panel {
+    border: 1px solid var(--rule);
+    background: var(--surface);
+    border-radius: 3px;
+    padding: 18px;
+    margin-bottom: 22px;
+  }
+  .panel-title {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .accent {
+    color: var(--accent);
+  }
+  .find-me {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+    font-size: 13px;
+  }
+  .find-me a {
+    cursor: pointer;
+    color: var(--ink);
+  }
+  .find-me a:hover {
+    color: var(--accent);
+  }
+  .dl {
+    font-size: 12.5px;
+    line-height: 1.5;
+  }
+  .row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .row.last {
+    border-bottom: none;
+  }
+  .row dd {
+    margin: 0;
+    color: var(--ink);
+  }
+</style>

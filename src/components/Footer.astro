@@ -1,0 +1,90 @@
+<footer class="site-footer">
+  <div class="dashed-rule"></div>
+  <div class="cols">
+    <div class="brand-col">
+      <div class="mono name">KD3BQP</div>
+      <div class="serif tagline">A personal amateur radio logbook from York, Pennsylvania.</div>
+    </div>
+    <div>
+      <div class="mono heading">Around the bands</div>
+      <div class="links">
+        <a href="https://www.arrl.org/" target="_blank" rel="noopener">ARRL</a>
+        <a href="https://parksontheair.com/" target="_blank" rel="noopener">Parks on the Air</a>
+        <a href="#">Keystone VHF Club</a>
+        <a href="https://repeaterbook.com/" target="_blank" rel="noopener">RepeaterBook</a>
+      </div>
+    </div>
+    <div>
+      <div class="mono heading">Find me</div>
+      <div class="links">
+        <a href="https://www.qrz.com/" target="_blank" rel="noopener">QRZ &middot; KD3BQP</a>
+        <a href="https://mastodon.social/" target="_blank" rel="noopener">Mastodon &middot; @kd3bqp</a>
+        <a href="/contact">Email</a>
+      </div>
+    </div>
+  </div>
+  <div class="bottom mono">
+    <span>73 de KD3BQP &middot; York, PA &middot; Grid FM19px</span>
+    <span>&middot; &mdash; &middot; &middot; &mdash; &nbsp; 2026 &nbsp; &middot; &mdash; &middot; &middot; &mdash;</span>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: 40px;
+    border-top: 1px solid var(--rule);
+  }
+  .dashed-rule {
+    opacity: 0.35;
+  }
+  .cols {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px 56px;
+    padding: 32px 0 28px;
+  }
+  .brand-col {
+    flex: 1 1 220px;
+  }
+  .name {
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: 0.14em;
+    color: var(--ink);
+  }
+  .tagline {
+    font-style: italic;
+    font-size: 14px;
+    color: var(--muted);
+    margin-top: 8px;
+    max-width: 30ch;
+  }
+  .heading {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--faint);
+    margin-bottom: 12px;
+  }
+  .links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .links a:hover {
+    color: var(--accent);
+  }
+  .bottom {
+    border-top: 1px solid var(--rule);
+    padding: 16px 0 40px;
+    font-size: 11.5px;
+    letter-spacing: 0.04em;
+    color: var(--faint);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+  }
+</style>

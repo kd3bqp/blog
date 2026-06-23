@@ -1,0 +1,210 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import RigSidebar from '../../components/RigSidebar.astro';
+import CommentSection from '../../components/CommentSection.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const { cat, date, read, title, tags, eventDetails, rig, photoLabel } = post.data;
+const isReview = post.data.type === 'review';
+---
+
+<BaseLayout title={title}>
+  <div class={isReview ? 'layout layout-review' : 'layout layout-article'}>
+    <article class="article">
+      <a href="/" class="mono back">&larr; All posts</a>
+
+      <div class="mono meta">
+        <span class="accent cat">{cat}</span>
+        <span class="faint">&middot;</span><span>{date}</span>
+        <span class="faint">&middot;</span><span>{read}</span>
+      </div>
+
+      <h1 class={isReview ? 'serif title title-review' : 'serif title'}>{title}</h1>
+      <div class="serif byline">by KD3BQP</div>
+
+      {!isReview && (
+        <div class="photo photo-placeholder">{photoLabel}</div>
+      )}
+
+      {eventDetails && eventDetails.length > 0 && (
+        <div class="event-panel">
+          <div class="mono panel-title accent">Event details</div>
+          <dl class="mono dl">
+            {eventDetails.map((d) => (
+              <div class="row"><dt class="faint">{d.k}</dt><dd>{d.v}</dd></div>
+            ))}
+          </dl>
+        </div>
+      )}
+
+      <div class="prose">
+        <Content />
+      </div>
+
+      <div class="tags">
+        {tags.map((t) => <span class="mono tag">{t}</span>)}
+      </div>
+      <div class="serif sign-off">73 de KD3BQP</div>
+
+      <CommentSection pageKey={`/posts/${post.id}/`} pageTitle={title} />
+    </article>
+
+    {isReview && rig && <RigSidebar rig={rig} />}
+  </div>
+</BaseLayout>
+
+<style>
+  .layout {
+    padding: 40px 0 8px;
+  }
+  .layout-article {
+    display: block;
+  }
+  .layout-article .article {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+  .layout-review {
+    display: flex;
+    flex-wrap: wrap-reverse;
+    gap: 48px;
+    align-items: flex-start;
+  }
+  .layout-review .article {
+    flex: 1 1 480px;
+    min-width: 0;
+    max-width: 680px;
+  }
+  .back {
+    cursor: pointer;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 24px;
+  }
+  .back:hover {
+    color: var(--accent);
+  }
+  .meta {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 16px;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+  }
+  .accent {
+    color: var(--accent);
+  }
+  .faint {
+    color: var(--faint);
+  }
+  .cat {
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+  }
+  .title {
+    margin: 0 0 14px;
+    font-weight: 700;
+    font-size: 38px;
+    line-height: 1.15;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  .title-review {
+    font-size: 36px;
+    line-height: 1.16;
+  }
+  .byline {
+    font-style: italic;
+    font-size: 16px;
+    color: var(--muted);
+    margin-bottom: 26px;
+  }
+  .photo {
+    height: 240px;
+    margin-bottom: 30px;
+  }
+  .event-panel {
+    border: 1px solid var(--rule);
+    background: var(--surface);
+    border-radius: 3px;
+    padding: 18px 20px;
+    margin: 0 0 28px;
+  }
+  .panel-title {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .dl {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .row {
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .row dd {
+    margin: 0;
+    color: var(--ink);
+    text-align: right;
+  }
+  .prose :global(p) {
+    font-size: 18px;
+    line-height: 1.75;
+    color: var(--ink);
+    margin: 0 0 20px;
+  }
+  .prose :global(p:first-of-type) {
+    /* drop-cap applied via global p.lead is not reachable from markdown directly;
+       first-letter targets the first paragraph of the article body. */
+  }
+  .prose :global(p:first-of-type::first-letter) {
+    font-family: 'Spectral', serif;
+    font-weight: 600;
+    font-size: 62px;
+    line-height: 0.78;
+    padding: 6px 12px 0 0;
+    color: var(--accent);
+    float: left;
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 30px 0 24px;
+  }
+  .tag {
+    font-size: 11px;
+    color: var(--muted);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    padding: 4px 9px;
+  }
+  .sign-off {
+    font-style: italic;
+    font-size: 18px;
+    color: var(--muted);
+    border-top: 1px solid var(--rule);
+    padding-top: 22px;
+  }
+</style>

@@ -1,0 +1,171 @@
+---
+interface Props {
+  counts: Record<string, number>;
+}
+
+const { counts } = Astro.props;
+const categories = ['Blog Posts', 'Reviews', 'Events'];
+const bandLinks = [
+  { name: 'ARRL', href: 'https://www.arrl.org/' },
+  { name: 'QRZ.com', href: 'https://www.qrz.com/' },
+  { name: 'Parks on the Air', href: 'https://parksontheair.com/' },
+  { name: 'Keystone VHF Club', href: '#' },
+  { name: 'RepeaterBook', href: 'https://repeaterbook.com/' },
+];
+---
+
+<aside class="sidebar">
+  <div class="panel">
+    <div class="mono panel-title accent">From the shack</div>
+    <dl class="mono dl">
+      <div class="row"><dt class="faint">Grid</dt><dd>FM19px</dd></div>
+      <div class="row"><dt class="faint">Club</dt><dd>Keystone VHF</dd></div>
+      <div class="row"><dt class="faint">Net night</dt><dd>Mondays</dd></div>
+      <div class="row last"><dt class="faint">Licensed</dt><dd>Technician &middot; 2024</dd></div>
+    </dl>
+  </div>
+
+  <div class="block">
+    <div class="mono block-title faint">Categories</div>
+    {categories.map((name) => (
+      <a href="#" class="cat-link" data-filter-link={name}>
+        <span>{name}</span>
+        <span class="mono cat-count">{counts[name]}</span>
+      </a>
+    ))}
+  </div>
+
+  <div class="block">
+    <div class="mono block-title faint">Around the bands</div>
+    {bandLinks.map((l) => (
+      <a href={l.href} target="_blank" rel="noopener" class="band-link">
+        <span>{l.name}</span>
+        <span class="mono arrow">&#8599;</span>
+      </a>
+    ))}
+  </div>
+
+  <div class="panel">
+    <div class="mono panel-title faint">Find me</div>
+    <div class="find-me mono">
+      <a href="https://www.qrz.com/" target="_blank" rel="noopener">QRZ &rarr; KD3BQP</a>
+      <a href="https://mastodon.social/" target="_blank" rel="noopener">Mastodon &rarr; @kd3bqp</a>
+      <a href="/contact">Email the shack</a>
+    </div>
+  </div>
+</aside>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-filter-link]').forEach((link) => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const name = (link as HTMLElement).dataset.filterLink;
+      const chip = document.querySelector<HTMLButtonElement>(`#filter-chips [data-filter="${name}"]`);
+      chip?.click();
+      window.scrollTo({ top: 0 });
+    });
+  });
+</script>
+
+<style>
+  .sidebar {
+    flex: 1 1 268px;
+    max-width: 320px;
+    position: sticky;
+    top: 24px;
+  }
+  .panel {
+    border: 1px solid var(--rule);
+    background: var(--surface);
+    border-radius: 3px;
+    padding: 18px 18px 20px;
+    margin-bottom: 22px;
+  }
+  .panel-title {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .accent {
+    color: var(--accent);
+  }
+  .faint {
+    color: var(--faint);
+  }
+  .dl {
+    font-size: 12.5px;
+    line-height: 1.5;
+  }
+  .row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .row.last {
+    border-bottom: none;
+  }
+  .row dd {
+    margin: 0;
+    color: var(--ink);
+  }
+  .block {
+    margin-bottom: 22px;
+  }
+  .block-title {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 13px;
+  }
+  .cat-link {
+    cursor: pointer;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--rule);
+    font-size: 15px;
+    color: var(--ink);
+  }
+  .cat-link:hover {
+    color: var(--accent);
+  }
+  .cat-count {
+    font-size: 12px;
+    color: var(--faint);
+  }
+  .band-link {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 7px 0;
+    font-size: 15px;
+    color: var(--ink);
+  }
+  .band-link:hover {
+    color: var(--accent);
+  }
+  .arrow {
+    font-size: 11px;
+    color: var(--faint);
+  }
+  .find-me {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    font-size: 13px;
+  }
+  .find-me a {
+    cursor: pointer;
+    color: var(--ink);
+  }
+  .find-me a:hover {
+    color: var(--accent);
+  }
+</style>

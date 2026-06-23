@@ -1,0 +1,62 @@
+---
+import Masthead from '../components/Masthead.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/tokens.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  active?: 'home' | 'about' | 'contact';
+}
+
+const { title, description = 'Notes from the shack — radios, nets, and the folks on the other end.', active } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en" data-theme="paper">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} · KD3BQP</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Sans+3:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="wrap">
+      <Masthead active={active} />
+      <slot />
+      <Footer />
+    </div>
+    <script>
+      const KEY = 'kd3bqp-theme';
+      const stored = localStorage.getItem(KEY);
+      if (stored === 'night' || stored === 'paper') {
+        document.documentElement.setAttribute('data-theme', stored);
+      }
+
+      function updateThemeLabel() {
+        const theme = document.documentElement.getAttribute('data-theme');
+        document.querySelectorAll('[data-theme-label]').forEach((el) => {
+          el.textContent = theme === 'night' ? 'Night shack' : 'Paper';
+        });
+      }
+      updateThemeLabel();
+
+      document.querySelectorAll('[data-theme-toggle]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const current = document.documentElement.getAttribute('data-theme');
+          const next = current === 'night' ? 'paper' : 'night';
+          document.documentElement.setAttribute('data-theme', next);
+          localStorage.setItem(KEY, next);
+          updateThemeLabel();
+        });
+      });
+    </script>
+  </body>
+</html>
