@@ -26,6 +26,7 @@ const turnstileDisabled = import.meta.env.PUBLIC_TURNSTILE_DISABLED === 'true';
           pageKey,
           pageTitle,
           server: artalkServer,
+          site: 'KD3BQP Blog',
         });
         function gtag(...args) { window.dataLayer = window.dataLayer || []; window.dataLayer.push(args); }
         artalk.on('comment-success', () => {
