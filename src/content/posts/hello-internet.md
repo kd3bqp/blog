@@ -2,15 +2,19 @@
 cat: "Blog Posts"
 type: "article"
 date: "Aug 1, 2025"
-read: "2 min"
+read: "1 min"
 title: "Hello Internet"
 excerpt: "After getting my Technician license, I grabbed the kd3bqp.radio domain to act as a little home base for my radio adventures. Welcome to it."
-photoLabel: "[ PHOTO — license in hand ]"
 tags: ["#Meta", "#Welcome"]
 ---
 
-After getting my amateur radio Technician license, I went ahead and grabbed the kd3bqp.radio domain to act as a little home base for my radio adventures. Welcome to it.
+After getting my amateur radio Technician license, I decided to also get myself the kd3bqp.radio domain name to act as a home for any of my radio-related projects.
 
-The plan is simple: write up the events I get to, review the gear I actually use, and keep notes on the projects that work (and the ones that don't). Mostly it's a logbook I happen to keep in public.
+I currently have three handheld radios, two VHF/UHF transponders, and a GMRS transponder.
+– For GMRS, a Radioddity GM-30 Plus.
+– I got the [Explorer QRZ-1 through](/posts/my-experience-with-the-explorer-qrz-1/) the introductory deal for new operators.
+– I got the [BTECH UV-PRO](/posts/my-experience-with-the-btech-uv-pro/) because I liked it, and really wanted the TNC feature.
 
-If you found your way here, thanks for stopping by. 73.
+Operating out of York, PA, almost all my TX is expected to be blocked by propagation estimators, and even at locations it isn't, my handhelds just don't seem strong enough, or their antennas are just really low quality, who knows?
+
+Anyways, if you hear me on air, feel free to contact, or messages me via WinLink!

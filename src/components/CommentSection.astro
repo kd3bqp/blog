@@ -7,6 +7,8 @@ interface Props {
 const { pageKey, pageTitle } = Astro.props;
 const commentsEnabled = import.meta.env.PUBLIC_COMMENTS_ENABLED === 'true';
 const artalkServer = import.meta.env.PUBLIC_ARTALK_SERVER ?? '';
+const turnstileKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '';
+const turnstileDisabled = import.meta.env.PUBLIC_TURNSTILE_DISABLED === 'true';
 ---
 
 <section class="comments">
@@ -15,15 +17,30 @@ const artalkServer = import.meta.env.PUBLIC_ARTALK_SERVER ?? '';
   {commentsEnabled ? (
     <>
       <div id="artalk" data-page-key={pageKey} data-page-title={pageTitle}></div>
+      {turnstileKey && !turnstileDisabled && <div id="artalk-turnstile" class="cf-turnstile" data-sitekey={turnstileKey}></div>}
       <link rel="stylesheet" href="https://unpkg.com/artalk@2/dist/Artalk.css" />
-      <script type="module" define:vars={{ artalkServer, pageKey, pageTitle }}>
+      <script type="module" define:vars={{ artalkServer, pageKey, pageTitle, turnstileKey, turnstileDisabled }}>
         import Artalk from 'https://unpkg.com/artalk@2/dist/Artalk.mjs';
-        Artalk.init({
+        const artalk = Artalk.init({
           el: '#artalk',
           pageKey,
           pageTitle,
           server: artalkServer,
         });
+        function gtag(...args) { window.dataLayer = window.dataLayer || []; window.dataLayer.push(args); }
+        artalk.on('comment-success', () => {
+          gtag('event', 'comment_posted', { page_key: pageKey, page_title: pageTitle });
+          // Reset Turnstile after successful submission so it can be used again
+          if (turnstileKey && window.turnstile) window.turnstile.reset('#artalk-turnstile');
+        });
+        if (turnstileKey && !turnstileDisabled) {
+          artalk.on('list-loaded', () => {
+            // Move the Turnstile widget inside the Artalk editor area once it renders
+            const editor = document.querySelector('#artalk .atk-editor-wrap');
+            const widget = document.getElementById('artalk-turnstile');
+            if (editor && widget) editor.appendChild(widget);
+          });
+        }
       </script>
     </>
   ) : (

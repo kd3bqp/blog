@@ -1,25 +1,16 @@
 ---
-cat: "Events"
+cat: "Blog Posts"
 type: "article"
 date: "Aug 8, 2025"
-read: "3 min"
+read: "1 min"
 title: "My First NET"
-excerpt: "I checked into my first net this week — the Keystone VHF Club net here in PA — and lived to tell the tale. If you've been nervous to key up, this one's for you."
-photoLabel: "[ PHOTO — the HT and a notepad ]"
-tags: ["#Net", "#FirstContact", "#KeystoneVHF"]
-eventDetails:
-  - k: "Net"
-    v: "Keystone VHF Club Net"
-  - k: "When"
-    v: "Mondays, weekly"
-  - k: "Mode"
-    v: "2m FM repeater"
-  - k: "My role"
-    v: "Check-in"
+excerpt: "I checked into the Keystone VHF Club NET for the first time — a short transmission, but enough to start getting comfortable on the air."
+photoLabel: "[ PHOTO — radio in hand, antenna up ]"
+tags: ["#NET", "#VHF", "#FirstTime"]
 ---
 
-I checked into my first NET this week — the Keystone VHF Club net here in Pennsylvania — and lived to tell the tale. If you've been nervous to key up, this one's for you.
+I participated in my first NET this Monday! I joined in on the Keystone VHF Club NET in Pennsylvania on their 2M frequency. I was confused when I should join in, so I called in during the "anyone we missed" section.
 
-I rehearsed my call sign about forty times before net control got to me, then promptly half-fumbled it anyway. Nobody cared. Everyone was welcoming, and the entire point of a net is the practice.
+It was fun to participate, get some of the radio nervousness out. Still trying to get comfortable transmitting over the waves, ya know. Going to take time being comfortable with interacting over the public airwaves.
 
-Checking into a net is the lowest-stakes way to get comfortable on the air. I'll be back next week, and probably the week after that.
+I recorded the net so I could transcribe it and get all the callsigns given, because they speak _so dang quickly_, I tried writing callsigns manually, but I only managed to get a few of them written, and even fewer written correctly! I don't want to publish anything though, since I don't think that'd be proper behaviour.

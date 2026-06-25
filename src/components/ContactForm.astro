@@ -1,8 +1,10 @@
 ---
 const webhookUrl = import.meta.env.PUBLIC_N8N_WEBHOOK_URL ?? '';
+const turnstileKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '';
+const turnstileDisabled = import.meta.env.PUBLIC_TURNSTILE_DISABLED === 'true';
 ---
 
-<div class="contact-form" data-webhook-url={webhookUrl}>
+<div class="contact-form" data-webhook-url={webhookUrl} data-turnstile-disabled={turnstileDisabled ? 'true' : ''}>
   <div class="success-panel mono" data-success hidden>
     <div class="success-tag">&middot; &mdash; &middot; &nbsp; MESSAGE QUEUED &nbsp; &middot; &mdash; &middot;</div>
     <div class="serif success-title">Thanks, <span data-sent-name></span> &mdash; got it.</div>
@@ -55,6 +57,9 @@ const webhookUrl = import.meta.env.PUBLIC_N8N_WEBHOOK_URL ?? '';
       </div>
     </div>
 
+    {turnstileKey && !turnstileDisabled && (
+      <div class="cf-turnstile" data-sitekey={turnstileKey}></div>
+    )}
     <div class="error mono" data-error hidden></div>
     <div class="actions">
       <button type="submit" class="btn mono">Send message</button>
@@ -225,6 +230,7 @@ const webhookUrl = import.meta.env.PUBLIC_N8N_WEBHOOK_URL ?? '';
 <script>
   function initContactForm(root: HTMLElement) {
     const webhookUrl = root.dataset.webhookUrl || '';
+    const turnstileDisabled = root.dataset.turnstileDisabled === 'true';
     const form = root.querySelector<HTMLFormElement>('[data-contact-form]')!;
     const editor = root.querySelector<HTMLElement>('[data-message-editor]')!;
     const errorEl = root.querySelector<HTMLElement>('[data-error]')!;
@@ -283,17 +289,28 @@ const webhookUrl = import.meta.env.PUBLIC_N8N_WEBHOOK_URL ?? '';
         return;
       }
 
+      const turnstileInput = form.querySelector<HTMLInputElement>('[name="cf-turnstile-response"]');
+      const turnstileToken = turnstileInput?.value ?? '';
+      const payload = { name, email, callsign, phone, message, messageHtml, turnstileToken };
+
       try {
-        const res = await fetch(webhookUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, email, callsign, phone, message, messageHtml }),
-        });
-        if (!res.ok) throw new Error(`Request failed: ${res.status}`);
+        if (turnstileDisabled) {
+          console.log('[contact form] Turnstile disabled — payload that would be sent:', payload);
+        } else {
+          const res = await fetch(webhookUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          if (!res.ok) throw new Error(`Request failed: ${res.status}`);
+        }
 
         sentNameEl.textContent = name;
         form.hidden = true;
         successPanel.hidden = false;
+
+        function gtag(...args) { (window.dataLayer = window.dataLayer || []).push(args); }
+        gtag('event', 'contact_form_submitted', { has_callsign: !!callsign });
       } catch {
         showError("Couldn't send that — check your connection and try again.");
       }

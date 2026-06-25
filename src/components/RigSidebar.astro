@@ -3,6 +3,7 @@ interface Spec { k: string; v: string }
 interface Buy { name: string; price: string }
 interface Rig {
   name: string;
+  photo?: string;
   photoLabel: string;
   ratingValue: number;
   ratingText: string;
@@ -28,9 +29,26 @@ function starType(v: number, i: number): 'full' | 'half' | 'empty' {
 const stars = [1, 2, 3, 4, 5].map((i) => starType(rig.ratingValue, i));
 ---
 
-<aside class="rig-sidebar">
+<div class="rig-backdrop" id="rig-backdrop"></div>
+<button class="rig-fab mono" id="rig-fab" aria-label="Show rig specs">
+  📻 Overview
+</button>
+<aside class="rig-sidebar" id="rig-sidebar">
+  <button class="rig-close mono" id="rig-close" aria-label="Close">&#x2715;</button>
   <div class="card">
-    <div class="photo photo-placeholder">{rig.photoLabel}</div>
+    {rig.photo ? (
+      <div class="photo photo-placeholder">
+        {rig.photoLabel}
+        <img
+          src={rig.photo}
+          alt={rig.photoLabel ?? rig.name}
+          loading="lazy"
+          onload="this.parentElement.classList.add('photo-loaded')"
+        />
+      </div>
+    ) : (
+      <div class="photo photo-placeholder">{rig.photoLabel}</div>
+    )}
     <div class="body">
       <div class="mono label accent">The rig</div>
       <div class="serif name">{rig.name}</div>
@@ -55,7 +73,7 @@ const stars = [1, 2, 3, 4, 5].map((i) => starType(rig.ratingValue, i));
       <div class="mono label faint">Where to buy</div>
       <div class="buy-list">
         {rig.buy.map((b) => (
-          <a href="#" class="buy-link">
+          <a href="#" class="buy-link" data-buy-link={b.name}>
             <span>{b.name}</span>
             <span class="mono price">{b.price} &#8599;</span>
           </a>
@@ -80,12 +98,133 @@ const stars = [1, 2, 3, 4, 5].map((i) => starType(rig.ratingValue, i));
   </div>
 </aside>
 
+<script>
+  const sidebar = document.getElementById('rig-sidebar')!;
+  const fab = document.getElementById('rig-fab')!;
+  const close = document.getElementById('rig-close')!;
+  const backdrop = document.getElementById('rig-backdrop')!;
+
+  function open() {
+    sidebar.classList.add('drawer-open');
+    backdrop.classList.add('backdrop-open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeDrawer() {
+    sidebar.classList.remove('drawer-open');
+    backdrop.classList.remove('backdrop-open');
+    document.body.style.overflow = '';
+  }
+
+  fab.addEventListener('click', open);
+  close.addEventListener('click', closeDrawer);
+  backdrop.addEventListener('click', closeDrawer);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeDrawer(); });
+</script>
+
 <style>
+  .rig-fab {
+    display: none;
+  }
+  .rig-close {
+    display: none;
+  }
+  .rig-backdrop {
+    display: none;
+  }
+
   .rig-sidebar {
     flex: 1 1 296px;
     max-width: 340px;
     position: sticky;
     top: 24px;
+    align-self: start;
+    max-height: calc(100vh - 48px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--rule) transparent;
+  }
+  .rig-sidebar::-webkit-scrollbar {
+    width: 4px;
+  }
+  .rig-sidebar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .rig-sidebar::-webkit-scrollbar-thumb {
+    background: var(--rule);
+    border-radius: 2px;
+  }
+
+  @media (max-width: 767px) {
+    .rig-fab {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 90;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 12px 20px;
+      font-size: 13px;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+    }
+    .rig-close {
+      display: block;
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      background: none;
+      border: none;
+      font-size: 16px;
+      color: var(--muted);
+      cursor: pointer;
+      z-index: 1;
+      padding: 4px 6px;
+    }
+    .rig-backdrop {
+      display: block;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      z-index: 95;
+      opacity: 0;
+      pointer-events: none;
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .rig-backdrop { transition: opacity 0.25s ease; }
+    }
+    .rig-backdrop.backdrop-open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .rig-sidebar {
+      position: fixed;
+      top: 0;
+      right: -360px;
+      width: 320px;
+      max-width: 85vw;
+      height: 100dvh;
+      max-height: none;
+      z-index: 100;
+      border-left: 1px solid var(--rule);
+      background: var(--bg);
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .rig-sidebar { transition: right 0.3s ease; }
+    }
+    .rig-sidebar.drawer-open {
+      right: 0;
+    }
+    .card {
+      border: none;
+      border-radius: 0;
+      min-height: 100%;
+    }
   }
   .card {
     border: 1px solid var(--rule);
@@ -98,6 +237,24 @@ const stars = [1, 2, 3, 4, 5].map((i) => starType(rig.ratingValue, i));
     border-bottom: 1px solid var(--rule);
     border-radius: 0;
     font-size: 11.5px;
+    position: relative;
+  }
+  .photo img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .photo-loaded img {
+    opacity: 1;
+  }
+  .photo-loaded {
+    background: none;
+    border: none;
+    color: transparent;
   }
   .body {
     padding: 18px 18px 20px;

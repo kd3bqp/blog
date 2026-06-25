@@ -10,12 +10,14 @@ const posts = defineCollection({
     read: z.string(),
     title: z.string(),
     excerpt: z.string(),
+    photo: z.string().url().optional(),
     photoLabel: z.string().optional(),
     tags: z.array(z.string()).default([]),
     eventDetails: z.array(z.object({ k: z.string(), v: z.string() })).optional(),
     rig: z
       .object({
         name: z.string(),
+        photo: z.string().url().optional(),
         photoLabel: z.string(),
         ratingValue: z.number(),
         ratingText: z.string(),

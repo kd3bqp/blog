@@ -14,11 +14,11 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await render(post);
-const { cat, date, read, title, tags, eventDetails, rig, photoLabel } = post.data;
+const { cat, date, read, title, tags, eventDetails, rig, photo, photoLabel } = post.data;
 const isReview = post.data.type === 'review';
 ---
 
-<BaseLayout title={title}>
+<BaseLayout title={title} description={post.data.excerpt} ogType="article">
   <div class={isReview ? 'layout layout-review' : 'layout layout-article'}>
     <article class="article">
       <a href="/" class="mono back">&larr; All posts</a>
@@ -32,7 +32,18 @@ const isReview = post.data.type === 'review';
       <h1 class={isReview ? 'serif title title-review' : 'serif title'}>{title}</h1>
       <div class="serif byline">by KD3BQP</div>
 
-      {!isReview && (
+      {!isReview && photo && (
+        <div class="photo photo-placeholder" id="photo-wrap">
+          {photoLabel ?? ''}
+          <img
+            src={photo}
+            alt={photoLabel ?? title}
+            loading="lazy"
+            onload="this.parentElement.classList.add('photo-loaded')"
+          />
+        </div>
+      )}
+      {!isReview && !photo && photoLabel && (
         <div class="photo photo-placeholder">{photoLabel}</div>
       )}
 
@@ -56,12 +67,50 @@ const isReview = post.data.type === 'review';
       </div>
       <div class="serif sign-off">73 de KD3BQP</div>
 
+      <div class="mono source-link">
+        <a href={`https://github.com/kd3bqp/blog/blob/main/src/content/posts/${post.id}.md`} target="_blank" rel="noopener">
+          View source markdown &nearr;
+        </a>
+      </div>
+
       <CommentSection pageKey={`/posts/${post.id}/`} pageTitle={title} />
     </article>
 
     {isReview && rig && <RigSidebar rig={rig} />}
   </div>
 </BaseLayout>
+
+<script define:vars={{ title, cat, isReview, postId: post.id }}>
+  function gtag(...args) { window.dataLayer = window.dataLayer || []; window.dataLayer.push(args); }
+
+  // Article / review load
+  gtag('event', isReview ? 'view_review' : 'view_article', {
+    post_title: title,
+    post_category: cat,
+    post_id: postId,
+  });
+
+  // Scroll-to-end = article read
+  const observer = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) {
+      gtag('event', 'article_read', { post_title: title, post_id: postId });
+      observer.disconnect();
+    }
+  }, { threshold: 1.0 });
+  const signOff = document.querySelector('.sign-off');
+  if (signOff) observer.observe(signOff);
+
+  // Review sidebar: buy link clicks
+  document.querySelectorAll('[data-buy-link]').forEach((el) => {
+    el.addEventListener('click', () => {
+      gtag('event', 'review_buy_click', {
+        post_title: title,
+        post_id: postId,
+        vendor: el.dataset.buyLink,
+      });
+    });
+  });
+</script>
 
 <style>
   .layout {
@@ -139,6 +188,27 @@ const isReview = post.data.type === 'review';
     height: 240px;
     margin-bottom: 30px;
   }
+  .photo img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 3px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .photo-placeholder {
+    position: relative;
+  }
+  .photo-loaded img {
+    opacity: 1;
+  }
+  .photo-loaded {
+    background: none;
+    border: none;
+    color: transparent;
+  }
   .event-panel {
     border: 1px solid var(--rule);
     background: var(--surface);
@@ -174,6 +244,15 @@ const isReview = post.data.type === 'review';
     color: var(--ink);
     margin: 0 0 20px;
   }
+  .prose :global(a) {
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+  .prose :global(a:hover) {
+    text-decoration-thickness: 2px;
+  }
   .prose :global(p:first-of-type) {
     /* drop-cap applied via global p.lead is not reachable from markdown directly;
        first-letter targets the first paragraph of the article body. */
@@ -206,5 +285,18 @@ const isReview = post.data.type === 'review';
     color: var(--muted);
     border-top: 1px solid var(--rule);
     padding-top: 22px;
+    margin-bottom: 10px;
+  }
+  .source-link {
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    margin-bottom: 30px;
+  }
+  .source-link a {
+    color: var(--faint);
+    text-decoration: none;
+  }
+  .source-link a:hover {
+    color: var(--muted);
   }
 </style>

@@ -2,15 +2,12 @@
 cat: "Blog Posts"
 type: "article"
 date: "Sep 5, 2025"
-read: "3 min"
+read: "1 min"
 title: "A Member in my Local Radio Club"
-excerpt: "It's official — I'm now a dues-paying, voted-in member of my local club, and it already feels like the right call."
-photoLabel: "[ PHOTO — the clubhouse ]"
-tags: ["#Club", "#Community", "#KeystoneVHF"]
+excerpt: "After two voting meetings and paying my dues, I'm officially in. Time to start showing up."
+photo: "https://cdn.kd3bqp.radio/blogphotos/IMG_4815.webp"
+photoLabel: "Club shack"
+tags: ["#Club", "#Community"]
 ---
 
-It's official — I'm now a dues-paying, voted-in member of my local radio club. It took paying my dues and sitting through a couple of voting meetings, but I'm in, and it already feels like the right call.
-
-Clubs are where the hobby stops being a solo thing. Access to the clubhouse station, the contesting weekends, the elmers willing to answer dumb questions — that's worth far more than the membership fee.
-
-If you're licensed and floating solo, consider this your nudge to go join one. You'll get more out of it than you put in.
+I am now officially a member of my local radio club! I paid my member dues, and after two voting meetings (one meeting per month) I was approved, and can now start going to meetings and whatnot. I really need to get better at participating in my local NETs too, I have been busy the past couple Mondays, so I've been missing the check-in.

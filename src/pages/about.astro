@@ -2,23 +2,35 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="About" active="about">
+<BaseLayout title="About" active="about" description="Ethan Manzi, KD3BQP — Technician-class amateur radio operator based in York, PA. Radios, digital modes, and life from the shack.">
   <div class="layout">
     <main class="main">
       <div class="mono eyebrow faint">About the operator</div>
-      <h1 class="serif heading">Hi, I&rsquo;m the operator behind KD3BQP.</h1>
+      <h1 class="serif heading">Introduce yourself to Ethan Manzi, KD3BQP</h1>
 
       <div class="photo photo-placeholder">[ PHOTO &mdash; the operator at the bench ]</div>
 
-      <p class="body-text">I&rsquo;m a Technician-class operator up in York County, Pennsylvania (grid FM19px). I got my ticket in July 2024 and got hooked fast &mdash; what started as &ldquo;I should learn this&rdquo; turned into a clipboard of pass times and a handheld that never leaves my bag.</p>
-      <p class="body-text">Most of my radio time is local: the <strong>Keystone VHF Club</strong> net on Monday nights, club operating weekends like the ARRL Sweepstakes, and a growing obsession with listening to amateur satellites pass overhead. I&rsquo;m also working my way into public-service and emergency comms &mdash; the <strong>ARES / RACES / AUXCOMM</strong> side &mdash; because that&rsquo;s where the hobby meets being genuinely useful.</p>
-      <p class="body-text">This blog is my logbook in public: event writeups, honest reviews of the gear I actually use (no affiliate fluff), and notes from the projects on my bench. If we&rsquo;ve worked each other, drop me a line.</p>
+      <p class="body-text">
+        Hai! My name is Ethan Manzi, I'm a <span id="dyvar-age">23</span> year old HAM operator, with intrests in radio <i>(of course)</i>, 
+        computer science (programming), and going for walks. I got my license back in 2024, first getting my GMRS license, and then quickly thereafter,
+        I upgraded to my Technician-class HAM license.
+      </p>
+      <p class="body-text">
+        I try and participate in my local club, the <strong>Keystone VHF Club (W3HZU)</strong>, and with my local ARES/RACES/Skywarn/AUXCOM group, 
+        called <strong>YARS</strong> up here. I've tried POTA a couple times, but have yet to <i>really</i> get into it. Mostly operate near my house, but
+        often not <i>inside it</i>, because most of my antenna are mobile antennas, and I don't have the ground connection and such yet.
+      </p>
+      <p class="body-text">
+        This is my personal blog, for sharing my experiences, findings, and revewing the products that I buy, to hopefully give others resources to decide
+        if its worth getting for them too. I also host myself a logbook, and a few other utilities, since I have the domain anyways! If you got something to say,
+        you're more than welcome to <a href="/contact">contact me</a>!  
+      </p>
 
       <h2 class="serif subheading">What you&rsquo;ll find here</h2>
       <ul class="list">
-        <li>Event &amp; net writeups from the club and public-service radio</li>
-        <li>Long-term reviews of the HTs and gear I actually use</li>
-        <li>Field notes from satellites, contests, and bench projects</li>
+        <li>Blog posts about events that I work</li>
+        <li>Reviews of products I purchase, receive, or use</li>
+        <li>My opinions and experiences doing general HAM operations</li>
       </ul>
     </main>
 
@@ -27,9 +39,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <div class="mono panel-title accent">The station</div>
         <dl class="mono dl">
           <div class="row"><dt class="faint small">DAILY HT</dt><dd>BTech UV-PRO</dd></div>
-          <div class="row"><dt class="faint small">ALSO IN THE BAG</dt><dd>Explorer QRZ-1</dd></div>
-          <div class="row"><dt class="faint small">ANTENNAS</dt><dd>2m/70cm Slim Jim, mag-mount mobile</dd></div>
-          <div class="row last"><dt class="faint small">BENCH</dt><dd>NanoVNA, soldering iron, too many adapters</dd></div>
+          <div class="row"><dt class="faint small">BACKUP HT</dt><dd>Explorer QRZ-1</dd></div>
+          <div class="row"><dt class="faint small">BASE STATION</dt><dd>Yaesu FT991-A</dd></div>
+          <div class="row last"><dt class="faint small">ANTENNAS</dt><dd>2m/70cm Slim Jim, mag-mount mobile</dd></div>
         </dl>
       </div>
 
@@ -41,6 +53,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           <a href="/contact">Email the shack</a>
         </div>
         <div class="club-note mono">Keystone VHF Club<br>Net: Mondays &middot; 2m FM</div>
+        <div class="club-note mono">On the Air<br>Usally monitoring call 2M & 70CM</div>
       </div>
     </aside>
   </div>
