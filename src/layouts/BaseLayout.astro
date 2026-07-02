@@ -20,10 +20,15 @@ interface Props {
   title: string;
   description?: string;
   ogType?: string;
-  active?: 'home' | 'about' | 'contact';
+  active?: 'home' | 'blog' | 'about' | 'contact';
 }
 
-const { title, description = 'Notes from the shack — radios, nets, and the folks on the other end.', ogType = 'website', active } = Astro.props;
+const {
+  title,
+  description = 'A personal amateur radio home base from York, Pennsylvania.',
+  ogType = 'website',
+  active,
+} = Astro.props;
 const gaId = import.meta.env.PROD ? import.meta.env.PUBLIC_GA_ID : undefined;
 const turnstileKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
 const turnstileDisabled = import.meta.env.PUBLIC_TURNSTILE_DISABLED === 'true';

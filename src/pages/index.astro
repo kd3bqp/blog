@@ -1,47 +1,59 @@
 ---
-import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PostCard from '../components/PostCard.astro';
-import FilterChips from '../components/FilterChips.astro';
-import Sidebar from '../components/Sidebar.astro';
+import StatusCard from '../components/StatusCard.astro';
+import Logbook from '../components/Logbook.astro';
+import QuickLinks from '../components/QuickLinks.astro';
+import Carousel from '../components/Carousel.astro';
+import PhotoModal from '../components/PhotoModal.astro';
 
-const allPosts = (await getCollection('posts')).sort(
-  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
-);
-
-const counts: Record<string, number> = { All: allPosts.length };
-for (const cat of ['Blog Posts', 'Reviews', 'Events']) {
-  counts[cat] = allPosts.filter((p) => p.data.cat === cat).length;
-}
+const showCarousel = import.meta.env.PUBLIC_SHOW_CAROUSEL === 'true';
 ---
 
-<BaseLayout title="Home" active="home">
-  <div class="layout">
-    <main class="main">
-      <div class="mono eyebrow faint">Latest from the log &mdash; newest first</div>
+<BaseLayout
+  title="Home"
+  active="home"
+  description="Ethan, KD3BQP — a software nerd who got into amateur radio, running out of York, Pennsylvania. Logbook, station status, and field notes."
+>
+  <div class="hero">
+    <main class="hero-main">
+      <div class="mono eyebrow faint">CQ CQ CQ &mdash; this is KD3BQP</div>
+      <h1 class="serif headline">A software nerd who got into radio &mdash; because, well, radios are cool.</h1>
+      <p class="lede">
+        Hi, I&rsquo;m Ethan &mdash; a hobbyist IT guy first and foremost, lately getting into radio too. I&rsquo;ve
+        got my GMRS license (<strong>WSHI362</strong>) and my Technician (<strong>KD3BQP</strong>), and I grabbed
+        the kd3bqp.radio domain to run a little blog, my email, and a web-log of everything I get up to.
+      </p>
+      <p class="lede">
+        I&rsquo;m slowly working toward my General. For now I&rsquo;m running a car CB antenna on 10M and
+        tryyyying to get out there &mdash; I just happened to start right during some rough solar conditions,
+        haha. I&rsquo;m also a long-time wanna-be-prepper, so I run with my local <strong>YARS</strong> group here
+        in York, PA &mdash; our combined ARES / RACES / Skywarn / AUXCOMM.
+      </p>
 
-      <FilterChips counts={counts} />
-
-      <div data-post-list>
-        {allPosts.map((post) => <PostCard post={post} />)}
+      <div class="cta-row">
+        <a class="btn-primary mono" href="/blog">Read the blog &rarr;</a>
+        <a class="btn-ghost mono" href="https://www.qrz.com/db/KD3BQP" target="_blank" rel="noopener">QRZ profile &#8599;</a>
       </div>
-
-      <div class="mono end faint">&middot; &mdash; &middot; &middot; &mdash; &nbsp; end of recent &nbsp; &middot; &mdash; &middot; &middot; &mdash;</div>
     </main>
 
-    <Sidebar counts={counts} />
+    <StatusCard />
   </div>
+
+  <Logbook />
+  <QuickLinks />
+  {showCarousel && <Carousel />}
+  <PhotoModal />
 </BaseLayout>
 
 <style>
-  .layout {
+  .hero {
     display: flex;
     flex-wrap: wrap;
     gap: 48px;
     align-items: flex-start;
-    padding: 40px 0 8px;
+    padding: 44px 0 8px;
   }
-  .main {
+  .hero-main {
     flex: 1 1 520px;
     min-width: 0;
   }
@@ -54,9 +66,60 @@ for (const cat of ['Blog Posts', 'Reviews', 'Events']) {
   .faint {
     color: var(--faint);
   }
-  .end {
-    font-size: 12px;
-    text-align: center;
-    padding: 6px 0 4px;
+  .headline {
+    margin: 0 0 22px;
+    font-weight: 700;
+    font-size: clamp(31px, 7vw, 46px);
+    line-height: 1.1;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  .lede {
+    font-size: clamp(16.5px, 4.4vw, 18.5px);
+    line-height: 1.72;
+    color: var(--muted);
+    margin: 0 0 18px;
+    max-width: 58ch;
+  }
+  .lede strong {
+    color: var(--ink);
+  }
+  .cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .btn-primary {
+    cursor: pointer;
+    font-size: 12.5px;
+    letter-spacing: 0.05em;
+    color: #fff;
+    background: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 3px;
+    padding: 12px 22px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn-primary:hover {
+    opacity: 0.88;
+  }
+  .btn-ghost {
+    cursor: pointer;
+    font-size: 12.5px;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    background: transparent;
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    padding: 12px 22px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn-ghost:hover {
+    border-color: var(--accent);
+    color: var(--accent);
   }
 </style>

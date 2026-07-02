@@ -1,0 +1,62 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import FilterChips from '../../components/FilterChips.astro';
+import Sidebar from '../../components/Sidebar.astro';
+
+const allPosts = (await getCollection('posts')).sort(
+  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+);
+
+const counts: Record<string, number> = { All: allPosts.length };
+for (const cat of ['Blog Posts', 'Reviews', 'Events']) {
+  counts[cat] = allPosts.filter((p) => p.data.cat === cat).length;
+}
+---
+
+<BaseLayout title="Blog" active="blog">
+  <div class="layout">
+    <main class="main">
+      <div class="mono eyebrow faint">Latest from the log &mdash; newest first</div>
+
+      <FilterChips counts={counts} />
+
+      <div data-post-list>
+        {allPosts.map((post) => <PostCard post={post} />)}
+      </div>
+
+      <div class="mono end faint">&middot; &mdash; &middot; &middot; &mdash; &nbsp; end of recent &nbsp; &middot; &mdash; &middot; &middot; &mdash;</div>
+    </main>
+
+    <Sidebar counts={counts} />
+  </div>
+</BaseLayout>
+
+<style>
+  .layout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 48px;
+    align-items: flex-start;
+    padding: 40px 0 8px;
+  }
+  .main {
+    flex: 1 1 520px;
+    min-width: 0;
+  }
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .faint {
+    color: var(--faint);
+  }
+  .end {
+    font-size: 12px;
+    text-align: center;
+    padding: 6px 0 4px;
+  }
+</style>

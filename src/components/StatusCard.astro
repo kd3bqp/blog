@@ -1,0 +1,200 @@
+<aside class="status">
+  <div class="photo-card">
+    <button type="button" class="photo-btn" data-photo-trigger aria-label="View photo of Ethan">
+      <img
+        src="https://cdn.kd3bqp.radio/blogphotos/IMG_3437.jpeg"
+        alt="Ethan — KD3BQP"
+        referrerpolicy="no-referrer"
+      />
+    </button>
+    <div class="who">
+      <div class="serif who-name">Ethan</div>
+      <div class="mono who-call">KD3BQP &middot; WSHI362</div>
+      <div class="serif who-loc">York, PA &middot; Grid FM19px</div>
+    </div>
+  </div>
+
+  <div class="aprs-card">
+    <div class="aprs-head">
+      <div class="mono aprs-title">APRS &middot; KD3BQP-9</div>
+      <div class="mono aprs-beacon"><span class="dot"></span>Last beacon 12 min ago</div>
+    </div>
+    <div class="aprs-map">
+      <iframe
+        title="APRS position map"
+        src="https://www.openstreetmap.org/export/embed.html?bbox=-76.82%2C39.92%2C-76.64%2C40.01&layer=mapnik&marker=39.9626%2C-76.7277"
+        loading="lazy"
+      ></iframe>
+      <div class="mono map-tag">York, PA &middot; FM19px</div>
+    </div>
+    <div class="aprs-body">
+      <dl class="mono dl">
+        <div class="row"><dt class="faint">Last heard</dt><dd>2h ago &middot; 2m FM</dd></div>
+        <div class="row"><dt class="faint">Last CQ</dt><dd>146.520 FM</dd></div>
+        <div class="row"><dt class="faint">Net night</dt><dd>Mondays &middot; 2m FM</dd></div>
+        <div class="row last"><dt class="faint">Licensed</dt><dd>Technician &middot; 2024</dd></div>
+      </dl>
+      <a class="mono track-link" href="https://aprs.fi/#!call=a%2FKD3BQP" target="_blank" rel="noopener"
+        >Track on aprs.fi &#8599;</a
+      >
+    </div>
+  </div>
+</aside>
+
+<style>
+  .status {
+    flex: 1 1 320px;
+    max-width: 368px;
+  }
+  .photo-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 15px;
+    border: 1px solid var(--rule);
+    background: var(--surface);
+    border-radius: 3px;
+    padding: 26px 24px;
+    margin-bottom: 20px;
+  }
+  .photo-btn {
+    cursor: pointer;
+    padding: 0;
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    background: var(--surface2);
+    line-height: 0;
+  }
+  .photo-btn:hover img {
+    opacity: 0.82;
+  }
+  .photo-btn img {
+    width: 150px;
+    height: 150px;
+    border-radius: 13px;
+    object-fit: cover;
+    display: block;
+  }
+  .who-name {
+    font-weight: 700;
+    font-size: 23px;
+    color: var(--ink);
+    line-height: 1.1;
+  }
+  .who-call {
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+    margin-top: 7px;
+  }
+  .who-loc {
+    font-style: italic;
+    font-size: 14.5px;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+  .aprs-card {
+    border: 1px solid var(--rule);
+    background: var(--surface);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .aprs-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .aprs-title {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .aprs-beacon {
+    font-size: 11px;
+    color: var(--faint);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: inline-block;
+  }
+  .aprs-map {
+    position: relative;
+    height: 208px;
+    background: var(--surface2);
+  }
+  .aprs-map iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+  }
+  html[data-theme='night'] .aprs-map iframe {
+    filter: invert(0.92) hue-rotate(180deg) saturate(0.7) brightness(0.9);
+  }
+  .map-tag {
+    position: absolute;
+    left: 12px;
+    bottom: 12px;
+    font-size: 10.5px;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    padding: 4px 8px;
+  }
+  .aprs-body {
+    padding: 16px 18px 18px;
+  }
+  .dl {
+    margin: 0;
+    font-size: 12.5px;
+    line-height: 1.5;
+  }
+  .row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .row.last {
+    border-bottom: none;
+  }
+  .row dd {
+    margin: 0;
+    color: var(--ink);
+  }
+  .faint {
+    color: var(--faint);
+  }
+  .track-link {
+    cursor: pointer;
+    margin-top: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 11.5px;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    padding: 9px 11px;
+  }
+  .track-link:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+</style>

@@ -1,0 +1,172 @@
+---
+const slides = [
+  'the operating position at the bench',
+  'handheld + notepad, club net night',
+  'the 10M car CB antenna, mounted up',
+  'at the YARS club station',
+  'the go-bag + HT, prepper kit',
+];
+---
+
+<section class="carousel" data-carousel data-count={slides.length}>
+  <div class="head">
+    <div>
+      <div class="mono eyebrow faint">From the shack &mdash; <span data-slide-counter>1 / {slides.length}</span></div>
+      <div class="serif caption" data-slide-caption>{slides[0]}</div>
+    </div>
+    <div class="controls">
+      <button type="button" class="nav-btn" data-prev aria-label="Previous">&larr;</button>
+      <button type="button" class="nav-btn" data-next aria-label="Next">&rarr;</button>
+    </div>
+  </div>
+
+  <div class="viewport">
+    <div class="track" data-track>
+      {
+        slides.map((label) => (
+          <div class="slide">
+            <div class="mono slide-tag">[ PHOTO &mdash; {label} ]</div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+
+  <div class="dots" data-dots>
+    {slides.map((_, i) => <button type="button" class="dot" data-dot data-index={i} aria-label="Go to slide" />)}
+  </div>
+</section>
+
+<style>
+  .carousel {
+    padding: 34px 0 8px;
+  }
+  .head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .faint {
+    color: var(--faint);
+  }
+  .caption {
+    font-style: italic;
+    font-size: 17px;
+    color: var(--muted);
+  }
+  .controls {
+    display: flex;
+    gap: 8px;
+  }
+  .nav-btn {
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+    color: var(--muted);
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .nav-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .viewport {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    background: var(--surface);
+  }
+  .track {
+    display: flex;
+    transition: transform 0.45s cubic-bezier(0.4, 0, 0.1, 1);
+  }
+  .slide {
+    flex: none;
+    width: 100%;
+    height: clamp(240px, 56vw, 420px);
+    background: repeating-linear-gradient(45deg, var(--surface2), var(--surface2) 13px, var(--surface) 13px, var(--surface) 26px);
+    display: flex;
+    align-items: flex-end;
+  }
+  .slide-tag {
+    margin: 18px;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    padding: 7px 11px;
+  }
+  .dots {
+    display: flex;
+    justify-content: center;
+    gap: 9px;
+    margin-top: 16px;
+  }
+  .dot {
+    cursor: pointer;
+    width: 9px;
+    height: 9px;
+    border-radius: 20px;
+    border: none;
+    padding: 0;
+    background: var(--rule);
+    transition: width 0.3s ease, background 0.3s ease;
+  }
+  .dot.active {
+    width: 26px;
+    background: var(--accent);
+  }
+</style>
+
+<script>
+  const SLIDE_LABELS = [
+    'the operating position at the bench',
+    'handheld + notepad, club net night',
+    'the 10M car CB antenna, mounted up',
+    'at the YARS club station',
+    'the go-bag + HT, prepper kit',
+  ];
+
+  document.querySelectorAll<HTMLElement>('[data-carousel]').forEach((root) => {
+    const track = root.querySelector<HTMLElement>('[data-track]')!;
+    const counter = root.querySelector<HTMLElement>('[data-slide-counter]')!;
+    const caption = root.querySelector<HTMLElement>('[data-slide-caption]')!;
+    const dots = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-dot]'));
+    const n = SLIDE_LABELS.length;
+    let i = 0;
+
+    function render() {
+      track.style.transform = `translateX(-${i * 100}%)`;
+      counter.textContent = `${i + 1} / ${n}`;
+      caption.textContent = SLIDE_LABELS[i];
+      dots.forEach((d, k) => d.classList.toggle('active', k === i));
+    }
+
+    function go(next: number) {
+      i = ((next % n) + n) % n;
+      render();
+    }
+
+    root.querySelector('[data-prev]')?.addEventListener('click', () => go(i - 1));
+    root.querySelector('[data-next]')?.addEventListener('click', () => go(i + 1));
+    dots.forEach((d) => d.addEventListener('click', () => go(Number(d.dataset.index))));
+
+    render();
+  });
+</script>
