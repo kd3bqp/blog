@@ -309,7 +309,10 @@ const turnstileDisabled = import.meta.env.PUBLIC_TURNSTILE_DISABLED === 'true';
         form.hidden = true;
         successPanel.hidden = false;
 
-        function gtag(...args) { (window.dataLayer = window.dataLayer || []).push(args); }
+        function gtag(...args: unknown[]) {
+          (window as any).dataLayer = (window as any).dataLayer || [];
+          (window as any).dataLayer.push(args);
+        }
         gtag('event', 'contact_form_submitted', { has_callsign: !!callsign });
       } catch {
         showError("Couldn't send that — check your connection and try again.");
