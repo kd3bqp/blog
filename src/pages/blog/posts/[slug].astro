@@ -1,8 +1,8 @@
 ---
 import { getCollection, render } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import RigSidebar from '../../components/RigSidebar.astro';
-import CommentSection from '../../components/CommentSection.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import RigSidebar from '../../../components/RigSidebar.astro';
+import CommentSection from '../../../components/CommentSection.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('posts');
@@ -21,7 +21,7 @@ const isReview = post.data.type === 'review';
 <BaseLayout title={title} description={post.data.excerpt} ogType="article">
   <div class={isReview ? 'layout layout-review' : 'layout layout-article'}>
     <article class="article">
-      <a href="/" class="mono back">&larr; All posts</a>
+      <a href="/blog" class="mono back">&larr; All posts</a>
 
       <div class="mono meta">
         <span class="accent cat">{cat}</span>
@@ -73,7 +73,7 @@ const isReview = post.data.type === 'review';
         </a>
       </div>
 
-      <CommentSection pageKey={`/posts/${post.id}/`} pageTitle={title} />
+      <CommentSection pageKey={`/blog/posts/${post.id}/`} pageTitle={title} />
     </article>
 
     {isReview && rig && <RigSidebar rig={rig} />}

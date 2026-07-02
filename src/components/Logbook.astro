@@ -1,0 +1,358 @@
+<section class="logbook" data-logbook>
+  <div class="head">
+    <div>
+      <div class="mono eyebrow faint">Logbook &mdash; recent contacts</div>
+      <h2 class="serif heading">Who I&rsquo;ve worked, lately</h2>
+    </div>
+    <a class="mono sync-link" href="https://www.wavelog.org" target="_blank" rel="noopener">
+      <span class="dot"></span>Synced from WaveLog &#8599;
+    </a>
+  </div>
+
+  <div class="stats" data-stats></div>
+
+  <div class="filters" data-filters></div>
+
+  <div class="table-wrap">
+    <div class="scroller">
+      <table class="mono">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>UTC</th>
+            <th>Call</th>
+            <th>Band</th>
+            <th>Mode</th>
+            <th>Freq</th>
+            <th>RST</th>
+            <th>QTH</th>
+          </tr>
+        </thead>
+        <tbody data-rows></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="mono footnote faint" data-footnote>Loading from WaveLog&hellip;</div>
+</section>
+
+<style>
+  .logbook {
+    padding: 40px 0 8px;
+  }
+  .head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+  }
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .faint {
+    color: var(--faint);
+  }
+  .heading {
+    margin: 0;
+    font-weight: 700;
+    font-size: clamp(24px, 5vw, 31px);
+    line-height: 1.15;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  .sync-link {
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border: 1px solid var(--rule);
+    background: var(--surface);
+    border-radius: 2px;
+    padding: 8px 12px;
+  }
+  .sync-link:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: inline-block;
+  }
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(124px, 1fr));
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 18px;
+  }
+  .stats :global(.stat) {
+    background: var(--surface);
+    padding: 14px 16px;
+  }
+  .stats :global(.stat-label) {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--faint);
+    margin-bottom: 7px;
+  }
+  .stats :global(.stat-value) {
+    font-family: 'Spectral', serif;
+    font-weight: 600;
+    font-size: 25px;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .filters :global(.chip) {
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    letter-spacing: 0.04em;
+    padding: 7px 12px;
+    border-radius: 2px;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: var(--surface);
+    color: var(--muted);
+    border: 1px solid var(--rule);
+  }
+  .filters :global(.chip:hover) {
+    border-color: var(--accent);
+  }
+  .filters :global(.chip.active) {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+  .filters :global(.chip .count) {
+    opacity: 0.55;
+  }
+  .table-wrap {
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    overflow: hidden;
+    background: var(--surface);
+  }
+  .scroller {
+    overflow-x: auto;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 660px;
+    font-size: 12.5px;
+  }
+  thead tr {
+    background: var(--surface2);
+  }
+  th {
+    text-align: left;
+    padding: 11px 14px;
+    font-weight: 500;
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--faint);
+    white-space: nowrap;
+  }
+  .table-wrap :global(td) {
+    padding: 10px 14px;
+    white-space: nowrap;
+  }
+  .table-wrap :global(tr) {
+    border-top: 1px solid var(--rule);
+  }
+  .table-wrap :global(.c-date) {
+    color: var(--ink);
+  }
+  .table-wrap :global(.c-utc) {
+    color: var(--muted);
+  }
+  .table-wrap :global(.c-call) {
+    color: var(--accent);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+  .table-wrap :global(.c-band),
+  .table-wrap :global(.c-mode),
+  .table-wrap :global(.c-rst) {
+    color: var(--ink);
+  }
+  .table-wrap :global(.c-freq),
+  .table-wrap :global(.c-qth) {
+    color: var(--muted);
+  }
+  .footnote {
+    font-size: 11px;
+    line-height: 1.5;
+    margin-top: 12px;
+  }
+</style>
+
+<script>
+  interface Qso {
+    date: string;
+    utc: string;
+    call: string;
+    band: string;
+    mode: string;
+    freq: string;
+    rst: string;
+    qth: string;
+    dxcc: string;
+  }
+
+  const SEED_LOG: Qso[] = [
+    { date: '2026-06-24', utc: '0142', call: 'W3XK', band: '2m', mode: 'FM', freq: '146.520', rst: '59/59', qth: 'York, PA', dxcc: 'USA' },
+    { date: '2026-06-21', utc: '2358', call: 'KB3RGT', band: '2m', mode: 'FM', freq: '147.180', rst: '59/57', qth: 'Hanover, PA', dxcc: 'USA' },
+    { date: '2026-06-18', utc: '1830', call: 'K4SWL', band: '10m', mode: 'SSB', freq: '28.420', rst: '55/53', qth: 'Asheville, NC', dxcc: 'USA' },
+    { date: '2026-06-15', utc: '0205', call: 'N3YAR', band: '2m', mode: 'FM', freq: '146.520', rst: '59/59', qth: 'York, PA', dxcc: 'USA' },
+    { date: '2026-06-12', utc: '2014', call: 'W8DEF', band: '10m', mode: 'SSB', freq: '28.385', rst: '44/55', qth: 'Columbus, OH', dxcc: 'USA' },
+    { date: '2026-06-07', utc: '1950', call: 'VE3KDX', band: '10m', mode: 'SSB', freq: '28.450', rst: '53/52', qth: 'Toronto, ON', dxcc: 'Canada' },
+    { date: '2026-06-02', utc: '0030', call: 'KC3QRP', band: '70cm', mode: 'FM', freq: '446.000', rst: '59/59', qth: 'York, PA', dxcc: 'USA' },
+    { date: '2026-05-28', utc: '2230', call: 'N1GMO', band: '10m', mode: 'SSB', freq: '28.400', rst: '33/44', qth: 'Boston, MA', dxcc: 'USA' },
+    { date: '2026-05-24', utc: '0145', call: 'W3YRS', band: '2m', mode: 'FM', freq: '147.180', rst: '59/59', qth: 'York, PA', dxcc: 'USA' },
+    { date: '2026-05-19', utc: '1905', call: 'K5TX', band: '10m', mode: 'SSB', freq: '28.480', rst: '55/57', qth: 'Dallas, TX', dxcc: 'USA' },
+    { date: '2026-05-12', utc: '0210', call: 'KD3LAN', band: '2m', mode: 'FM', freq: '146.520', rst: '59/58', qth: 'Lancaster, PA', dxcc: 'USA' },
+    { date: '2026-05-05', utc: '1940', call: 'XE2OK', band: '10m', mode: 'SSB', freq: '28.410', rst: '41/51', qth: 'Monterrey, MX', dxcc: 'Mexico' },
+  ];
+
+  const FOOTNOTES: Record<string, string> = {
+    live: "Live from WaveLog — most recent 25 QSOs. GMRS (WSHI362) isn't logged here.",
+    empty: "WaveLog connected but no contacts yet. GMRS (WSHI362) isn't logged here.",
+    offline:
+      "Couldn't reach WaveLog (CORS) — placeholder data shown. Will resolve when served from kd3bqp.radio. GMRS (WSHI362) isn't logged here.",
+  };
+
+  async function fetchLiveLog(): Promise<Qso[] | null> {
+    const BASE = 'https://logbook.kd3bqp.radio';
+    const KEY = 'wla0c7aa362b79b';
+    try {
+      const stRes = await fetch(`${BASE}/index.php/api/station_info/${KEY}`);
+      const stations = await stRes.json();
+      const stId = Array.isArray(stations) && stations.length ? stations[0].station_id : '1';
+
+      const qsoRes = await fetch(`${BASE}/index.php/api/get_contacts_adif`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          key: KEY,
+          station_id: stId,
+          fetchfromid: 0,
+          output_format: 'json',
+          fields: ['CALL', 'QSO_DATE', 'TIME_ON', 'BAND', 'MODE', 'FREQ', 'RST_SENT', 'RST_RCVD', 'COUNTRY', 'GRIDSQUARE'],
+        }),
+      });
+      const data = await qsoRes.json();
+
+      if (data.exported_qsos > 0 && Array.isArray(data.adif)) {
+        return [...data.adif].reverse().slice(0, 25).map((q: any) => ({
+          date: (q.QSO_DATE || '').replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3'),
+          utc: (q.TIME_ON || '0000').slice(0, 4),
+          call: q.CALL || '',
+          band: q.BAND || '',
+          mode: q.MODE || '',
+          freq: q.FREQ ? Number(q.FREQ).toFixed(3) : '',
+          rst: (q.RST_SENT || '59') + '/' + (q.RST_RCVD || '59'),
+          qth: q.COUNTRY || (q.GRIDSQUARE || '').slice(0, 4) || '',
+          dxcc: q.COUNTRY || 'Unknown',
+        }));
+      }
+      return [];
+    } catch {
+      return null;
+    }
+  }
+
+  function uniq<T>(arr: T[]): T[] {
+    return Array.from(new Set(arr));
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-logbook]').forEach(async (root) => {
+    const statsEl = root.querySelector<HTMLElement>('[data-stats]')!;
+    const filtersEl = root.querySelector<HTMLElement>('[data-filters]')!;
+    const rowsEl = root.querySelector<HTMLElement>('[data-rows]')!;
+    const footnoteEl = root.querySelector<HTMLElement>('[data-footnote]')!;
+
+    let log = SEED_LOG;
+    let band = 'All';
+
+    function bandCount(b: string) {
+      return b === 'All' ? log.length : log.filter((q) => q.band === b).length;
+    }
+
+    function render() {
+      const stats = [
+        { label: 'QSOs', value: String(log.length) },
+        { label: 'Bands', value: String(uniq(log.map((q) => q.band)).length) },
+        { label: 'Modes', value: String(uniq(log.map((q) => q.mode)).length) },
+        { label: 'DXCC', value: String(uniq(log.map((q) => q.dxcc)).length) },
+        { label: 'Last QSO', value: log.length ? log[0].date.slice(5) : '—' },
+      ];
+      statsEl.innerHTML = stats
+        .map((s) => `<div class="stat"><div class="stat-label">${s.label}</div><div class="stat-value">${s.value}</div></div>`)
+        .join('');
+
+      filtersEl.innerHTML = ['All', '10m', '2m', '70cm']
+        .map((name) => `<button type="button" class="chip${band === name ? ' active' : ''}" data-band="${name}">${name}<span class="count">${bandCount(name)}</span></button>`)
+        .join('');
+      filtersEl.querySelectorAll<HTMLButtonElement>('[data-band]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          band = btn.dataset.band!;
+          render();
+        });
+      });
+
+      const rows = band === 'All' ? log : log.filter((q) => q.band === band);
+      rowsEl.innerHTML = rows
+        .map(
+          (q) => `<tr>
+            <td class="c-date">${q.date}</td>
+            <td class="c-utc">${q.utc}</td>
+            <td class="c-call">${q.call}</td>
+            <td class="c-band">${q.band}</td>
+            <td class="c-mode">${q.mode}</td>
+            <td class="c-freq">${q.freq}</td>
+            <td class="c-rst">${q.rst}</td>
+            <td class="c-qth">${q.qth}</td>
+          </tr>`
+        )
+        .join('');
+    }
+
+    render();
+
+    const live = await fetchLiveLog();
+    if (live === null) {
+      footnoteEl.textContent = FOOTNOTES.offline;
+    } else if (live.length === 0) {
+      footnoteEl.textContent = FOOTNOTES.empty;
+    } else {
+      log = live;
+      footnoteEl.textContent = FOOTNOTES.live;
+      render();
+    }
+  });
+</script>

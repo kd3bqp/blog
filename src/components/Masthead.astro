@@ -1,6 +1,6 @@
 ---
 interface Props {
-  active?: 'home' | 'about' | 'contact';
+  active?: 'home' | 'blog' | 'about' | 'contact';
   showActivity?: boolean;
 }
 
@@ -11,10 +11,11 @@ const { active, showActivity = true } = Astro.props;
   <div class="row">
     <a href="/" class="brand">
       <div class="mono name">KD3BQP</div>
-      <div class="serif tagline">Notes from the shack &mdash; radios, nets, and the folks on the other end.</div>
+      <div class="serif tagline">Ethan &middot; Amateur radio operator &mdash; York, Pennsylvania &middot; Grid FM19px</div>
     </a>
     <nav class="nav">
       <a href="/" class={`nav-link mono ${active === 'home' ? 'active' : ''}`}>Home</a>
+      <a href="/blog" class={`nav-link mono ${active === 'blog' ? 'active' : ''}`}>Blog</a>
       <a href="/about" class={`nav-link mono ${active === 'about' ? 'active' : ''}`}>About</a>
       <a href="/contact" class={`nav-link mono ${active === 'contact' ? 'active' : ''}`}>Contact</a>
       <button type="button" class="theme-btn mono" data-theme-toggle>
@@ -23,12 +24,22 @@ const { active, showActivity = true } = Astro.props;
     </nav>
   </div>
 
-  {showActivity && (
-    <div class="activity mono">
-      <span><span class="faint">GRID</span> <span class="ink">FM19px</span></span>
-      <span><span class="faint">CLUB</span> <span class="ink">Keystone VHF</span></span>
-    </div>
-  )}
+  {
+    showActivity && (
+      <div class="activity mono">
+        <span>
+          <span class="faint">GRID</span> <span class="ink">FM19px</span>
+        </span>
+        <span>
+          <span class="faint">CLUB</span> <span class="ink">YARS &middot; York PA</span>
+        </span>
+        <span>
+          <span class="faint">MONITORING</span> <span class="ink">146.520 FM</span>
+        </span>
+        <span class="qrv">&bull; QRV</span>
+      </div>
+    )
+  }
 
   <div class="dashed-rule"></div>
 </header>
@@ -50,7 +61,7 @@ const { active, showActivity = true } = Astro.props;
   }
   .name {
     font-weight: 700;
-    font-size: 34px;
+    font-size: clamp(27px, 8vw, 34px);
     letter-spacing: 0.14em;
     color: var(--ink);
     line-height: 1;

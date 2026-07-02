@@ -1,8 +1,10 @@
-# KD3BQP Blog — AI Agent Context
+# KD3BQP Site — AI Agent Context
 
-Personal amateur radio blog for Ethan Manzi, KD3BQP. Astro static site deployed to DigitalOcean. Built with Astro v7, self-hosted Artalk comments, Cloudflare Turnstile CAPTCHA, n8n webhook for contact form, and @fontsource self-hosted fonts.
+Personal amateur radio home base + blog for Ethan Manzi, KD3BQP. Astro static site deployed to DigitalOcean. Built with Astro v7, self-hosted Artalk comments, Cloudflare Turnstile CAPTCHA, n8n webhook for contact form, and @fontsource self-hosted fonts.
 
-**Live site:** https://blog.kd3bqp.radio
+This repo used to be split into two sites (a landing page and a blog on a `blog.` subdomain). They've been merged into one Astro site since it's all the same static build sharing the same components/assets — the landing pages now live at the root and the blog moved under `/blog`.
+
+**Live site:** https://kd3bqp.radio
 **Repo:** https://github.com/kd3bqp/blog
 
 ## Development
@@ -17,9 +19,15 @@ Manage the background server with `astro dev stop`, `astro dev status`, and `ast
 
 ## Architecture
 
+- `src/pages/index.astro` — root landing page (logbook status, QSO log, quick links)
+- `src/pages/about.astro`, `src/pages/contact.astro` — landing-site pages, rooted at `/about` and `/contact`
+- `src/pages/blog/index.astro` — blog post listing, at `/blog`
+- `src/pages/blog/posts/[slug].astro` — individual post/review pages, at `/blog/posts/<slug>`
 - `src/layouts/BaseLayout.astro` — HTML shell: theme, fonts, GA (prod-only), OG tags, canonical
 - `src/content/posts/*.md` — all blog posts; schema defined in `src/content.config.ts`
+- `src/components/Masthead.astro` — site-wide nav (Home / Blog / About / Contact); `active` prop drives the highlighted link
 - `src/components/RigSidebar.astro` — review sidebar (sticky desktop, FAB drawer on mobile)
+- `src/components/StatusCard.astro`, `Logbook.astro`, `QuickLinks.astro`, `Carousel.astro`, `PhotoModal.astro` — landing-page-only components used by the root index
 - `src/styles/tokens.css` — CSS custom properties for paper/night themes; do not change font family names here
 - `public/_headers` — Cloudflare cache rules (immutable for `/_astro/*`)
 - `public/robots.txt` — allow all, sitemap reference
@@ -52,6 +60,7 @@ All secrets live in `.env` (gitignored). See `.env.example` for the full list. P
 | `PUBLIC_COMMENTS_ENABLED` | `true` once Artalk is stable |
 | `PUBLIC_ARTALK_SERVER` | https://commentsection.puppylab.net |
 | `PUBLIC_N8N_WEBHOOK_URL` | Use production URL (not `-test`) in prod |
+| `PUBLIC_SHOW_CAROUSEL` | Toggles the "From the shack" photo carousel on the root landing page |
 
 ## Documentation
 

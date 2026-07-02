@@ -1,0 +1,124 @@
+---
+const links = [
+  {
+    kicker: 'Logbook',
+    name: 'The Blog',
+    desc: 'Event writeups, gear reviews, and field notes.',
+    href: '/blog',
+    arrow: '→',
+  },
+  {
+    kicker: 'Profile',
+    name: 'QRZ.com',
+    desc: 'Station details and contact info.',
+    href: 'https://www.qrz.com/db/KD3BQP',
+    arrow: '↗',
+  },
+  {
+    kicker: 'Live',
+    name: 'APRS · aprs.fi',
+    desc: 'Where I last beaconed in.',
+    href: 'https://aprs.fi/#!call=a%2FKD3BQP',
+    arrow: '↗',
+  },
+  {
+    kicker: 'Club',
+    name: 'YARS · York PA',
+    desc: 'York-area ARES / RACES / Skywarn / AUXCOMM.',
+    href: '#',
+    arrow: '↗',
+  },
+  {
+    kicker: 'Social',
+    name: 'Mastodon',
+    desc: '@kd3bqp — radio thoughts in the open.',
+    href: '#',
+    arrow: '↗',
+  },
+  {
+    kicker: 'Say hi',
+    name: 'Contact',
+    desc: 'Worked me, or want to talk radio?',
+    href: '/contact',
+    arrow: '→',
+  },
+];
+---
+
+<section class="quick-links">
+  <div class="mono eyebrow faint">Quick links &mdash; around my corner of the bands</div>
+  <div class="grid">
+    {
+      links.map((l) => (
+        <a href={l.href} class="card" target={l.href.startsWith('http') ? '_blank' : undefined} rel={l.href.startsWith('http') ? 'noopener' : undefined}>
+          <div class="card-top">
+            <span class="mono kicker">{l.kicker}</span>
+            <span class="mono arrow">{l.arrow}</span>
+          </div>
+          <div class="serif name">{l.name}</div>
+          <div class="desc">{l.desc}</div>
+        </a>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .quick-links {
+    padding: 24px 0 8px;
+  }
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .faint {
+    color: var(--faint);
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(232px, 1fr));
+    gap: 12px;
+  }
+  .card {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    border: 1px solid var(--rule);
+    background: var(--surface);
+    border-radius: 3px;
+    padding: 16px 17px;
+  }
+  .card:hover {
+    border-color: var(--accent);
+  }
+  .card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .kicker {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .arrow {
+    font-size: 12px;
+    color: var(--faint);
+  }
+  .name {
+    font-weight: 600;
+    font-size: 18px;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+  .desc {
+    font-size: 13.5px;
+    line-height: 1.45;
+    color: var(--muted);
+  }
+</style>

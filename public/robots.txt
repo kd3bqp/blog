@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://blog.kd3bqp.radio/sitemap-index.xml
+Sitemap: https://kd3bqp.radio/sitemap-index.xml

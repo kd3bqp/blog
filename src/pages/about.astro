@@ -1,8 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PhotoModal from '../components/PhotoModal.astro';
 ---
 
-<BaseLayout title="About" active="about" description="Ethan Manzi, KD3BQP — Technician-class amateur radio operator based in York, PA. Radios, digital modes, and life from the shack.">
+<BaseLayout
+  title="About"
+  active="about"
+  description="Ethan Manzi, KD3BQP — Technician-class amateur radio operator based in York, PA. Radios, digital modes, and life from the shack."
+>
   <div class="layout">
     <main class="main">
       <div class="mono eyebrow faint">About the operator</div>
@@ -11,19 +16,21 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <div class="photo photo-placeholder">[ PHOTO &mdash; the operator at the bench ]</div>
 
       <p class="body-text">
-        Hai! My name is Ethan Manzi, I'm a <span id="dyvar-age">23</span> year old HAM operator, with intrests in radio <i>(of course)</i>, 
-        computer science (programming), and going for walks. I got my license back in 2024, first getting my GMRS license, and then quickly thereafter,
-        I upgraded to my Technician-class HAM license.
+        Hai! My name is Ethan Manzi, I'm a <span id="dyvar-age">23</span> year old HAM operator, with intrests in radio
+        <i>(of course)</i>, computer science (programming), and going for walks. I got my license back in 2024, first
+        getting my GMRS license, and then quickly thereafter, I upgraded to my Technician-class HAM license.
       </p>
       <p class="body-text">
-        I try and participate in my local club, the <strong>Keystone VHF Club (W3HZU)</strong>, and with my local ARES/RACES/Skywarn/AUXCOM group, 
-        called <strong>YARS</strong> up here. I've tried POTA a couple times, but have yet to <i>really</i> get into it. Mostly operate near my house, but
-        often not <i>inside it</i>, because most of my antenna are mobile antennas, and I don't have the ground connection and such yet.
+        I try and participate in my local club, the <strong>Keystone VHF Club (W3HZU)</strong>, and with my local
+        ARES/RACES/Skywarn/AUXCOM group, called <strong>YARS</strong> up here. I've tried POTA a couple times, but have
+        yet to <i>really</i> get into it. Mostly operate near my house, but often not <i>inside it</i>, because most of
+        my antenna are mobile antennas, and I don't have the ground connection and such yet.
       </p>
       <p class="body-text">
-        This is my personal blog, for sharing my experiences, findings, and revewing the products that I buy, to hopefully give others resources to decide
-        if its worth getting for them too. I also host myself a logbook, and a few other utilities, since I have the domain anyways! If you got something to say,
-        you're more than welcome to <a href="/contact">contact me</a>!  
+        This is my personal blog, for sharing my experiences, findings, and revewing the products that I buy, to
+        hopefully give others resources to decide if its worth getting for them too. I also host myself a logbook,
+        and a few other utilities, since I have the domain anyways! If you got something to say, you're more than
+        welcome to <a href="/contact">contact me</a>!
       </p>
 
       <h2 class="serif subheading">What you&rsquo;ll find here</h2>
@@ -35,6 +42,21 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     </main>
 
     <aside class="sidebar">
+      <div class="who-card">
+        <button type="button" class="photo-btn" data-photo-trigger aria-label="View photo of Ethan">
+          <img
+            src="https://cdn.kd3bqp.radio/blogphotos/IMG_3437.jpeg"
+            alt="Ethan — KD3BQP"
+            referrerpolicy="no-referrer"
+          />
+        </button>
+        <div class="who">
+          <div class="serif who-name">Ethan</div>
+          <div class="mono who-call">KD3BQP &middot; WSHI362</div>
+          <div class="serif who-loc">York, PA &middot; Grid FM19px</div>
+        </div>
+      </div>
+
       <div class="panel">
         <div class="mono panel-title accent">The station</div>
         <dl class="mono dl">
@@ -48,15 +70,17 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <div class="panel">
         <div class="mono panel-title faint">Where to find me</div>
         <div class="find-me mono">
-          <a href="https://www.qrz.com/" target="_blank" rel="noopener">QRZ &rarr; KD3BQP</a>
-          <a href="https://mastodon.social/" target="_blank" rel="noopener">Mastodon &rarr; @kd3bqp</a>
+          <a href="https://www.qrz.com/db/KD3BQP" target="_blank" rel="noopener">QRZ &rarr; KD3BQP</a>
+          <a href="#">Mastodon &rarr; @kd3bqp</a>
           <a href="/contact">Email the shack</a>
         </div>
-        <div class="club-note mono">Keystone VHF Club<br>Net: Mondays &middot; 2m FM</div>
-        <div class="club-note mono">On the Air<br>Usally monitoring call 2M & 70CM</div>
+        <div class="club-note mono">YARS &middot; York, PA<br />Net: Mondays &middot; 2m FM</div>
+        <div class="club-note mono">On the Air<br />Usually monitoring 2m &amp; 70cm</div>
       </div>
     </aside>
   </div>
+
+  <PhotoModal />
 </BaseLayout>
 
 <style>
@@ -101,6 +125,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   .body-text strong {
     color: var(--ink);
   }
+  .body-text a {
+    color: var(--accent);
+    text-decoration: underline;
+  }
   .subheading {
     font-weight: 600;
     font-size: 24px;
@@ -122,6 +150,54 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     max-width: 320px;
     position: sticky;
     top: 24px;
+  }
+  .who-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 15px;
+    border: 1px solid var(--rule);
+    background: var(--surface);
+    border-radius: 3px;
+    padding: 26px 24px;
+    margin-bottom: 22px;
+  }
+  .photo-btn {
+    cursor: pointer;
+    padding: 0;
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    background: var(--surface2);
+    line-height: 0;
+  }
+  .photo-btn:hover img {
+    opacity: 0.82;
+  }
+  .photo-btn img {
+    width: 150px;
+    height: 150px;
+    border-radius: 13px;
+    object-fit: cover;
+    display: block;
+  }
+  .who-name {
+    font-weight: 700;
+    font-size: 23px;
+    color: var(--ink);
+    line-height: 1.1;
+  }
+  .who-call {
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+    margin-top: 7px;
+  }
+  .who-loc {
+    font-style: italic;
+    font-size: 14.5px;
+    color: var(--muted);
+    margin-top: 6px;
   }
   .panel {
     border: 1px solid var(--rule);

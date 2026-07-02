@@ -7,7 +7,7 @@ interface Props {
 
 const { post } = Astro.props;
 const { cat, date, read, title, excerpt } = post.data;
-const href = `/posts/${post.id}/`;
+const href = `/blog/posts/${post.id}/`;
 ---
 
 <article class="post-card" data-cat={cat}>
