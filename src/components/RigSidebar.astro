@@ -1,10 +1,11 @@
 ---
 interface Spec { k: string; v: string }
-interface Buy { name: string; price: string }
+interface Buy { name: string; price: string; url?: string }
 interface Rig {
   name: string;
   photo?: string;
   photoLabel: string;
+  homepage?: string;
   ratingValue: number;
   ratingText: string;
   ratingLabel: string;
@@ -52,6 +53,11 @@ const stars = [1, 2, 3, 4, 5].map((i) => starType(rig.ratingValue, i));
     <div class="body">
       <div class="mono label accent">The rig</div>
       <div class="serif name">{rig.name}</div>
+      {rig.homepage && (
+        <a href={rig.homepage} class="mono homepage-link" target="_blank" rel="noopener">
+          Official page &#8599;
+        </a>
+      )}
 
       <div class="rating">
         <div class="stars">
@@ -73,7 +79,13 @@ const stars = [1, 2, 3, 4, 5].map((i) => starType(rig.ratingValue, i));
       <div class="mono label faint">Where to buy</div>
       <div class="buy-list">
         {rig.buy.map((b) => (
-          <a href="#" class="buy-link" data-buy-link={b.name}>
+          <a
+            href={b.url ?? '#'}
+            class="buy-link"
+            data-buy-link={b.name}
+            target={b.url ? '_blank' : undefined}
+            rel={b.url ? 'noopener' : undefined}
+          >
             <span>{b.name}</span>
             <span class="mono price">{b.price} &#8599;</span>
           </a>
@@ -279,6 +291,17 @@ const stars = [1, 2, 3, 4, 5].map((i) => starType(rig.ratingValue, i));
     font-size: 22px;
     color: var(--ink);
     line-height: 1.2;
+  }
+  .homepage-link {
+    cursor: pointer;
+    display: inline-flex;
+    font-size: 12px;
+    letter-spacing: 0.03em;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  .homepage-link:hover {
+    color: var(--accent);
   }
   .rating {
     display: flex;
